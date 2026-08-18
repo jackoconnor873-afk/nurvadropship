@@ -1,0 +1,225 @@
+{%- comment -%} NURVA — Block 5 of 6: comparison table + buy boxes. EDIT THE HANDLE BELOW. {%- endcomment -%}
+
+<div class="nurva">
+  <section class="section section--raised">
+    <div class="wrap">
+      <div class="sec-head sec-head--center stack" data-reveal>
+        <span class="eyebrow">Why Nurva</span>
+        <h2 class="h2">Not all strips are built the same</h2>
+        <p class="lede">We took the standard nasal strip apart and rebuilt it for people who sweat, train and want to sleep properly afterwards.</p>
+      </div>
+
+      <div class="compare-scroll" data-reveal>
+        <table class="compare">
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">Feature</span></th>
+              <th scope="col" class="is-us">Nurva Pro</th>
+              <th scope="col">Drug-store strips</th>
+              <th scope="col">Internal dilators</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Hold time</th>
+              <td class="is-us"><span class="cell-text" style="color:var(--teal-bright)">Up to 10 hours</span></td>
+              <td><span class="cell-text">4–6 hours</span></td>
+              <td><span class="cell-text">Varies</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Sweat &amp; humidity proof</th>
+              <td class="is-us"><span class="yes">&#10003;</span></td>
+              <td><span class="no">&times;</span></td>
+              <td><span class="yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Dual spring bands</th>
+              <td class="is-us"><span class="yes">&#10003;</span></td>
+              <td><span class="no">&times;</span></td>
+              <td><span class="no">&times;</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Nothing inserted in the nose</th>
+              <td class="is-us"><span class="yes">&#10003;</span></td>
+              <td><span class="yes">&#10003;</span></td>
+              <td><span class="no">&times;</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Drug free</th>
+              <td class="is-us"><span class="yes">&#10003;</span></td>
+              <td><span class="yes">&#10003;</span></td>
+              <td><span class="yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Hypoallergenic, latex free</th>
+              <td class="is-us"><span class="yes">&#10003;</span></td>
+              <td><span class="cell-text">Sometimes</span></td>
+              <td><span class="cell-text">Sometimes</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Designed for training and sleep</th>
+              <td class="is-us"><span class="yes">&#10003;</span></td>
+              <td><span class="no">&times;</span></td>
+              <td><span class="no">&times;</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Cost per night</th>
+              <td class="is-us"><span class="cell-text" style="color:var(--teal-bright)">From $0.55</span></td>
+              <td><span class="cell-text">$0.80+</span></td>
+              <td><span class="cell-text">$1.20+</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="center muted" style="margin-top:20px;font-size:.76rem">
+        Comparison based on typical product specifications in each category. Not a claim about any specific competing product.
+      </p>
+    </div>
+  </section>
+
+  
+</div>
+
+{%- comment -%}
+  ==========================================================================
+  LINK YOUR PRODUCT — change the handle on the next line to your product's.
+  The handle is the last part of the product URL, e.g.
+  yourstore.com/products/nurva-performance-nasal-strips
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  If your product has 3 variants (1 Pack / 3 Pack / 6 Pack) all three cards
+  fill in automatically. With one variant, only the first card is live.
+  ==========================================================================
+{%- endcomment -%}
+
+{%- assign nurva_handle = 'nurva-performance-nasal-strips' -%}
+
+{%- assign np = all_products[nurva_handle] -%}
+{%- assign v1 = np.variants[0] -%}
+{%- assign v2 = np.variants[1] -%}
+{%- assign v3 = np.variants[2] -%}
+
+<div class="nurva">
+<section class="section" id="nurva-bundles">
+  <div class="wrap">
+    <div class="sec-head sec-head--center stack" data-reveal>
+      <span class="eyebrow">Choose your pack</span>
+      <h2 class="h2">Stock up and save</h2>
+      <p class="lede">Most people use one strip a night. The 3-pack is where the maths starts working in your favour.</p>
+    </div>
+
+    <div class="bundles reveal-stagger">
+
+      <!-- ---------- Pack 1 ---------- -->
+      <div class="bundle">
+        <div>
+          <div class="bundle__qty">Starter</div>
+          <div class="bundle__sub">30 strips &middot; 1 month</div>
+        </div>
+        <div>
+          <div class="bundle__price">
+            <span class="bundle__now">{% if v1 %}{{ v1.price | money }}{% else %}$24.99{% endif %}</span>
+            {%- if v1 and v1.compare_at_price > v1.price -%}
+              <span class="bundle__was">{{ v1.compare_at_price | money }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+        <ul class="bundle__list stack">
+          <li><span>&#10003;</span><span>30 sweat-proof strips</span></li>
+          <li><span>&#10003;</span><span>Tracked shipping</span></li>
+          <li><span>&#10003;</span><span>30-night guarantee</span></li>
+        </ul>
+        {%- if v1 -%}
+          <form method="post" action="{{ routes.cart_add_url }}">
+            <input type="hidden" name="id" value="{{ v1.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="btn btn--block btn--ghost">
+              {% if v1.available %}Add to cart{% else %}Sold out{% endif %}
+            </button>
+          </form>
+        {%- else -%}
+          <a class="btn btn--block btn--ghost" href="{{ routes.all_products_collection_url }}">Shop now</a>
+        {%- endif -%}
+      </div>
+
+      <!-- ---------- Pack 2 (highlighted) ---------- -->
+      <div class="bundle bundle--best">
+        <span class="bundle__flag">Most popular</span>
+        <div>
+          <div class="bundle__qty">3-Pack</div>
+          <div class="bundle__sub">90 strips &middot; 3 months</div>
+        </div>
+        <div>
+          <div class="bundle__price">
+            <span class="bundle__now">{% if v2 %}{{ v2.price | money }}{% else %}$59.99{% endif %}</span>
+            {%- if v2 and v2.compare_at_price > v2.price -%}
+              <span class="bundle__was">{{ v2.compare_at_price | money }}</span>
+            {%- else -%}
+              <span class="bundle__was">$74.97</span>
+            {%- endif -%}
+          </div>
+          <div class="bundle__save">Save 20% &middot; $0.66 per night</div>
+        </div>
+        <ul class="bundle__list stack">
+          <li><span>&#10003;</span><span>90 sweat-proof strips</span></li>
+          <li><span>&#10003;</span><span>Free express shipping</span></li>
+          <li><span>&#10003;</span><span>30-night guarantee</span></li>
+          <li><span>&#10003;</span><span>Free travel tin</span></li>
+        </ul>
+        {%- if v2 -%}
+          <form method="post" action="{{ routes.cart_add_url }}">
+            <input type="hidden" name="id" value="{{ v2.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="btn btn--block">
+              {% if v2.available %}Add to cart{% else %}Sold out{% endif %}
+            </button>
+          </form>
+        {%- else -%}
+          <a class="btn btn--block" href="{% if np %}{{ np.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}">Shop now</a>
+        {%- endif -%}
+      </div>
+
+      <!-- ---------- Pack 3 ---------- -->
+      <div class="bundle">
+        <div>
+          <div class="bundle__qty">6-Pack</div>
+          <div class="bundle__sub">180 strips &middot; 6 months</div>
+        </div>
+        <div>
+          <div class="bundle__price">
+            <span class="bundle__now">{% if v3 %}{{ v3.price | money }}{% else %}$104.99{% endif %}</span>
+            {%- if v3 and v3.compare_at_price > v3.price -%}
+              <span class="bundle__was">{{ v3.compare_at_price | money }}</span>
+            {%- else -%}
+              <span class="bundle__was">$149.94</span>
+            {%- endif -%}
+          </div>
+          <div class="bundle__save">Save 30% &middot; $0.58 per night</div>
+        </div>
+        <ul class="bundle__list stack">
+          <li><span>&#10003;</span><span>180 sweat-proof strips</span></li>
+          <li><span>&#10003;</span><span>Free express shipping</span></li>
+          <li><span>&#10003;</span><span>30-night guarantee</span></li>
+          <li><span>&#10003;</span><span>Free travel tin</span></li>
+        </ul>
+        {%- if v3 -%}
+          <form method="post" action="{{ routes.cart_add_url }}">
+            <input type="hidden" name="id" value="{{ v3.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="btn btn--block btn--ghost">
+              {% if v3.available %}Add to cart{% else %}Sold out{% endif %}
+            </button>
+          </form>
+        {%- else -%}
+          <a class="btn btn--block btn--ghost" href="{% if np %}{{ np.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}">Shop now</a>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+    <p class="center muted" style="margin-top:26px;font-size:.8rem">
+      Free shipping over $35 &middot; 30-night guarantee
+    </p>
+  </div>
+</section>
+</div>
