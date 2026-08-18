@@ -1,0 +1,14 @@
+{
+  "general": {
+    "meta": { "tags": "Tagged \"{{ tags }}\"", "page": "Page {{ page }}" },
+    "nav": { "primary": "Primary" },
+    "search": { "search": "Search" },
+    "breadcrumbs": { "collection": "Collection" }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "refresh_page": "Choosing a selection results in a full page refresh."
+  },
+  "sections": { "cart": { "title": "Cart" } },
+  "customer": { "account": { "title": "Account" } }
+}

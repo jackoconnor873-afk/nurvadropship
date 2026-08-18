@@ -1,0 +1,36 @@
+<div class="section">
+  <div class="wrap stack">
+    <div class="sec-head sec-head--split">
+      <div class="stack"><span class="eyebrow">Account</span><h1 class="h1">{{ customer.name }}</h1></div>
+      <a class="link-arrow" href="{{ routes.account_logout_url }}">Log out</a>
+    </div>
+
+    <h2 class="h3">Order history</h2>
+    {%- paginate customer.orders by 20 -%}
+      {%- if customer.orders.size > 0 -%}
+        <div class="compare-scroll">
+          <table class="compare">
+            <thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Fulfilment</th><th>Total</th></tr></thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr>
+                  <th scope="row"><a class="tint" href="{{ order.customer_url }}">{{ order.name }}</a></th>
+                  <td class="cell-text">{{ order.created_at | date: '%b %d, %Y' }}</td>
+                  <td class="cell-text">{{ order.financial_status_label }}</td>
+                  <td class="cell-text">{{ order.fulfillment_status_label }}</td>
+                  <td class="cell-text">{{ order.total_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+      {%- else -%}
+        <p class="muted">You haven't placed any orders yet.</p>
+      {%- endif -%}
+    {%- endpaginate -%}
+
+    <h2 class="h3" style="margin-top:40px">Default address</h2>
+    <div class="muted">{{ customer.default_address | format_address }}</div>
+    <a class="link-arrow" href="{{ routes.account_addresses_url }}">Manage addresses</a>
+  </div>
+</div>

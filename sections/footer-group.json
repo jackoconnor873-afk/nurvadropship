@@ -1,0 +1,43 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "newsletter": {
+      "type": "cta-band",
+      "settings": {
+        "eyebrow": "Join the movement",
+        "heading": "Get 15% off your first pack",
+        "body": "Training tips, breathing protocols and early access to new drops. No spam — unsubscribe any time.",
+        "show_form": true
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "footer" } },
+        "learn": {
+          "type": "text",
+          "settings": {
+            "heading": "Support",
+            "body": "<p>hello@nurva.com<br>Mon–Fri, 9–5</p><p>Shipping · Returns · FAQ</p>"
+          }
+        },
+        "legal": {
+          "type": "text",
+          "settings": {
+            "heading": "Company",
+            "body": "<p>About Nurva<br>Sustainability<br>Wholesale &amp; teams<br>Privacy policy</p>"
+          }
+        }
+      },
+      "block_order": ["shop", "learn", "legal"],
+      "settings": {
+        "logo_text": "NURVA",
+        "logo_sub": "Performance",
+        "tagline": "Breathe Pure | Live Pure",
+        "show_wordmark": true
+      }
+    }
+  },
+  "order": ["newsletter", "footer"]
+}

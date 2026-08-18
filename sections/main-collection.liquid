@@ -1,0 +1,60 @@
+<div class="section">
+  <div class="wrap wrap--wide">
+    <div class="sec-head stack" data-reveal>
+      <span class="eyebrow">{{ 'general.breadcrumbs.collection' | t | default: 'Collection' }}</span>
+      <h1 class="h1">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="lede rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- paginate collection.products by section.settings.per_page -%}
+      {%- if collection.products.size > 0 -%}
+        <div class="grid grid--{{ section.settings.columns }} reveal-stagger">
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="pagination" aria-label="Pagination">
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}">{{ part.title }}</a>
+              {%- else -%}
+                <span {% if part.title == paginate.current_page %}aria-current="page"{% endif %}>{{ part.title }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </nav>
+        {%- endif -%}
+      {%- else -%}
+        <div class="empty-state stack">
+          <h2 class="h3">Nothing here yet</h2>
+          <p class="muted">This collection is empty. Check back soon.</p>
+          <a class="btn" href="{{ routes.all_products_collection_url }}">Browse everything</a>
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "section",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 16 },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns",
+      "default": "4",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ]
+    }
+  ]
+}
+{% endschema %}

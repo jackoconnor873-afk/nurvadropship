@@ -1,0 +1,54 @@
+<div class="marquee {% if section.settings.style == 'dark' %}marquee--dark{% endif %} {% if section.settings.tilt %}marquee--tilt{% endif %}"
+     style="--marquee-speed: {{ section.settings.speed | default: 34 }}s">
+  <div class="marquee__track" data-marquee>
+    <div class="marquee__group">
+      {%- for block in section.blocks -%}
+        <span class="marquee__item" {{ block.shopify_attributes }}>
+          {{ block.settings.text }}
+          <span class="marquee__dot"></span>
+        </span>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Marquee",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "default": "accent",
+      "options": [
+        { "value": "accent", "label": "Accent (teal)" },
+        { "value": "dark", "label": "Dark" }
+      ]
+    },
+    { "type": "checkbox", "id": "tilt", "label": "Tilt the band", "default": false },
+    { "type": "range", "id": "speed", "label": "Loop duration", "min": 12, "max": 70, "step": 2, "unit": "s", "default": 34 }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Word",
+      "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "PRO" }]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee",
+      "blocks": [
+        { "type": "item", "settings": { "text": "PERFORM" } },
+        { "type": "item", "settings": { "text": "BREATHE" } },
+        { "type": "item", "settings": { "text": "RECOVER" } },
+        { "type": "item", "settings": { "text": "PRO" } },
+        { "type": "item", "settings": { "text": "BREATHE PURE" } },
+        { "type": "item", "settings": { "text": "LIVE PURE" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

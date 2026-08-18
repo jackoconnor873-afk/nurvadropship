@@ -1,0 +1,28 @@
+<div class="section">
+  <div class="wrap wrap--wide">
+    <div class="sec-head stack" data-reveal>
+      <span class="eyebrow">Browse</span>
+      <h1 class="h1">Collections</h1>
+    </div>
+
+    <div class="grid grid--3 reveal-stagger">
+      {%- for collection in collections -%}
+        <a class="card" href="{{ collection.url }}">
+          <div class="card__media">
+            {%- if collection.featured_image -%}
+              {{ collection.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: collection.title, sizes: '(min-width:750px) 33vw, 90vw', widths: '300,500,800' }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <div class="card__title">{{ collection.title }}</div>
+          <div class="quote__meta">{{ collection.products_count }} product{% if collection.products_count != 1 %}s{% endif %}</div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Collections list", "tag": "section", "settings": [] }
+{% endschema %}

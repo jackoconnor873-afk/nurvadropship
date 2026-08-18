@@ -1,0 +1,17 @@
+<div class="section">
+  <div class="wrap wrap--narrow">
+    <div class="sec-head stack" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h1 class="h1">{{ page.title }}</h1>
+    </div>
+    <div class="rte" data-reveal>{{ page.content }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page",
+  "tag": "section",
+  "settings": [{ "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Nurva" }]
+}
+{% endschema %}

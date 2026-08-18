@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_bg | default: '#05070a' }}">
+
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {% render 'meta-tags' %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap"
+      media="print"
+      onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap">
+    </noscript>
+
+    {{ 'nurva.css' | asset_url | stylesheet_tag }}
+
+    <style>
+      :root {
+        --ink: {{ settings.color_bg | default: '#05070a' }};
+        --ink-2: {{ settings.color_bg_alt | default: '#0a0e13' }};
+        --teal: {{ settings.color_accent | default: '#14a5b8' }};
+        --teal-bright: {{ settings.color_accent_bright | default: '#3bddef' }};
+        --teal-deep: {{ settings.color_accent_deep | default: '#0c7280' }};
+        --text: {{ settings.color_text | default: '#f4f7f9' }};
+        --page: {{ settings.page_width | default: 1280 }}px;
+      }
+    </style>
+
+    <script>
+      document.documentElement.classList.remove('no-js');
+      window.Shopify = window.Shopify || {};
+      window.Shopify.moneyFormat = {{ shop.money_format | json }};
+      window.Shopify.routes = window.Shopify.routes || {};
+      window.Shopify.routes.root = {{ routes.root_url | append: '/' | replace: '//', '/' | json }};
+    </script>
+
+    <script src="{{ 'nurva.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template--{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_text' | t | default: 'Skip to content' }}</a>
+
+    <div class="progress-bar" data-progress aria-hidden="true"></div>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t | default: 'Choosing a selection results in a full page refresh.' }}</li>
+    </ul>
+  </body>
+</html>

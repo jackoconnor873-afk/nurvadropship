@@ -1,0 +1,20 @@
+<div class="section">
+  <div class="wrap wrap--narrow stack">
+    <div class="sec-head stack"><span class="eyebrow">Account</span><h1 class="h1">Log in</h1></div>
+    {%- form 'customer_login' -%}
+      {{ form.errors | default_errors }}
+      <div class="stack">
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="CustomerEmail">Email</label>
+          <input class="signup-input" type="email" name="customer[email]" id="CustomerEmail" autocomplete="email" required>
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="CustomerPassword">Password</label>
+          <input class="signup-input" type="password" name="customer[password]" id="CustomerPassword" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn">Log in</button>
+        <a class="link-arrow" href="{{ routes.account_register_url }}">Create an account</a>
+      </div>
+    {%- endform -%}
+  </div>
+</div>

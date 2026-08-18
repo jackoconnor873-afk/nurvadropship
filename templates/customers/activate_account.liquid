@@ -1,0 +1,21 @@
+<div class="section">
+  <div class="wrap wrap--narrow stack">
+    <div class="sec-head stack"><span class="eyebrow">Account</span><h1 class="h1">Activate account</h1></div>
+    <p class="lede">Create a password to activate your Nurva account.</p>
+    {%- form 'activate_customer_password' -%}
+      {{ form.errors | default_errors }}
+      <div class="stack">
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="ActivatePassword">Password</label>
+          <input class="signup-input" type="password" id="ActivatePassword" name="customer[password]" autocomplete="new-password">
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="ActivateConfirm">Confirm password</label>
+          <input class="signup-input" type="password" id="ActivateConfirm" name="customer[password_confirmation]" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn">Activate</button>
+        <button type="submit" name="decline" class="btn btn--ghost">Decline invitation</button>
+      </div>
+    {%- endform -%}
+  </div>
+</div>

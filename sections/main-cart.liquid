@@ -1,0 +1,88 @@
+<div class="section">
+  <div class="wrap">
+    <div class="sec-head stack" data-reveal>
+      <span class="eyebrow">Your bag</span>
+      <h1 class="h1">Cart</h1>
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <div class="cart-layout">
+          <div>
+            {%- for item in cart.items -%}
+              <div class="cart-line">
+                <a href="{{ item.url }}">
+                  {%- if item.image -%}
+                    {{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.title, width: 92, height: 92 }}
+                  {%- endif -%}
+                </a>
+
+                <div>
+                  <a class="card__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                  {%- unless item.product.has_only_default_variant -%}
+                    <div class="quote__meta">{{ item.variant.title }}</div>
+                  {%- endunless -%}
+                  <div class="muted" style="font-size:.85rem;margin-top:6px">{{ item.original_price | money }} each</div>
+
+                  <div style="display:flex;gap:14px;align-items:center;margin-top:12px">
+                    <div class="qty" data-qty>
+                      <button type="button" data-qty-step="-1" aria-label="Decrease">{% render 'icon', name: 'minus', size: 15 %}</button>
+                      <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity for {{ item.title | escape }}">
+                      <button type="button" data-qty-step="1" aria-label="Increase">{% render 'icon', name: 'plus', size: 15 %}</button>
+                    </div>
+                    <a class="quote__meta" href="{{ item.url_to_remove }}">Remove</a>
+                  </div>
+                </div>
+
+                <div class="cart-line__total" style="font-family:var(--font-brand);font-weight:700">
+                  {{ item.final_line_price | money }}
+                </div>
+              </div>
+            {%- endfor -%}
+
+            <div style="margin-top:22px">
+              <button type="submit" name="update" class="btn btn--ghost btn--sm">Update cart</button>
+            </div>
+          </div>
+
+          <aside class="cart-summary stack">
+            <h2 class="h3">Summary</h2>
+            <div class="cart-summary__row">
+              <span class="muted">Subtotal</span>
+              <strong>{{ cart.total_price | money }}</strong>
+            </div>
+            {%- if cart.total_discount > 0 -%}
+              <div class="cart-summary__row">
+                <span class="muted">Discount</span>
+                <strong class="tint">-{{ cart.total_discount | money }}</strong>
+              </div>
+            {%- endif -%}
+            <p class="muted" style="font-size:.82rem">Taxes and shipping calculated at checkout.</p>
+
+            <label class="opt__label" for="CartNote">Order note</label>
+            <textarea id="CartNote" name="note" rows="3"
+              style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line-strong);background:rgba(0,0,0,.35);color:var(--text)">{{ cart.note }}</textarea>
+
+            <button type="submit" name="checkout" class="btn btn--block btn--lg">Checkout</button>
+
+            <div class="trust-row" style="grid-template-columns:1fr">
+              <div>{% render 'icon', name: 'lock', size: 17 %}<span>Secure checkout</span></div>
+              <div>{% render 'icon', name: 'truck', size: 17 %}<span>Free shipping over $35</span></div>
+              <div>{% render 'icon', name: 'refresh', size: 17 %}<span>30-night guarantee</span></div>
+            </div>
+          </aside>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="empty-state stack">
+        <h2 class="h2">Your cart is empty</h2>
+        <p class="lede" style="margin-inline:auto">Nothing in the bag yet. Let's fix your breathing.</p>
+        <div><a class="btn btn--lg" href="{{ routes.all_products_collection_url }}">Shop Nurva</a></div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Cart", "tag": "section", "settings": [] }
+{% endschema %}

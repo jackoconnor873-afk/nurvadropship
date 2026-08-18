@@ -1,0 +1,89 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "eyebrow": { "type": "eyebrow", "settings": { "text": "Perform | Breathe | Recover" } },
+        "title": { "type": "title", "settings": {} },
+        "rating": { "type": "rating", "settings": { "text": "4.8 from 2,400+ reviews" } },
+        "price": { "type": "price", "settings": { "note": "Free shipping over $35" } },
+        "description": { "type": "description", "settings": {} },
+        "benefits": {
+          "type": "benefits",
+          "settings": {
+            "items": "Up to 10 hours of hold\nSweat-proof medical-grade adhesive\nDrug free, latex free, hypoallergenic\nWorks for training and for sleep"
+          }
+        },
+        "buy": { "type": "buy", "settings": { "button_label": "Add to cart", "show_dynamic_checkout": true } },
+        "trust": {
+          "type": "trust",
+          "settings": {
+            "item_1": "Ships in 1 business day",
+            "item_2": "30-night guarantee",
+            "item_3": "Drug free"
+          }
+        },
+        "apply": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "How to apply",
+            "body": "<p>Clean and dry the bridge of your nose. Peel the liner, centre the strip just above the flare of your nostrils, press the ends for five seconds. Remove under warm water.</p>"
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Shipping & returns",
+            "body": "<p>Orders placed before 2pm ship the same business day with tracking. Free shipping over $35. If Nurva doesn't work for you, tell us within 30 nights for a full refund.</p>"
+          }
+        }
+      },
+      "block_order": ["eyebrow", "title", "rating", "price", "description", "benefits", "buy", "trust", "apply", "shipping"],
+      "settings": { "show_sticky_bar": true }
+    },
+    "badges": {
+      "type": "badge-row",
+      "blocks": {
+        "b1": { "type": "badge", "settings": { "value": "10", "animate": true, "label": "Hours of relief", "note": "One strip holds from warm-up to lights out." } },
+        "b2": { "type": "badge", "settings": { "value": "", "icon": "drop", "label": "Sweat proof", "note": "Medical-grade adhesive that won't peel mid-set." } },
+        "b3": { "type": "badge", "settings": { "value": "", "icon": "bolt", "label": "Performance boost", "note": "More airflow means more oxygen where it counts." } },
+        "b4": { "type": "badge", "settings": { "value": "", "icon": "moon", "label": "Snoring relief", "note": "Quieter nights, deeper recovery, sharper mornings." } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": { "raised": true, "eyebrow": "What you get", "heading": "Four reasons it stays in your gym bag" }
+    },
+    "how": {
+      "type": "how-it-works",
+      "blocks": {
+        "h1": { "type": "step", "settings": { "title": "Clean & dry", "body": "Wash and dry the bridge of your nose so the adhesive grips properly." } },
+        "h2": { "type": "step", "settings": { "title": "Peel & place", "body": "Remove the liner and centre the strip just above the flare of your nostrils." } },
+        "h3": { "type": "step", "settings": { "title": "Press & hold", "body": "Press the ends down for five seconds. The spring bands do the rest." } },
+        "h4": { "type": "step", "settings": { "title": "Breathe", "body": "Train, race or sleep. Peel off gently under warm water." } }
+      },
+      "block_order": ["h1", "h2", "h3", "h4"],
+      "settings": { "eyebrow": "Three seconds to apply", "heading": "How Nurva works" }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "r1": { "type": "quote", "settings": { "quote": "First run where I wasn't gasping through my mouth by kilometre three.", "rating": 5, "name": "Marcus T.", "meta": "Verified buyer" } },
+        "r2": { "type": "quote", "settings": { "quote": "My partner stopped elbowing me at 2am. Worth it for that alone.", "rating": 5, "name": "Priya R.", "meta": "Verified buyer" } },
+        "r3": { "type": "quote", "settings": { "quote": "Holds twice as long as the drug-store brand and doesn't curl when I sweat.", "rating": 5, "name": "Danny K.", "meta": "Verified buyer" } }
+      },
+      "block_order": ["r1", "r2", "r3"],
+      "settings": { "raised": true, "eyebrow": "Real users", "heading": "Trusted by people who train" }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "qa", "settings": { "question": "Will it stay on while I train?", "answer": "<p>Yes — sweat-resistant medical-grade adhesive rated for up to 10 hours, including humid conditions. Apply to clean, dry skin.</p>" } },
+        "q2": { "type": "qa", "settings": { "question": "Does it help with snoring?", "answer": "<p>It helps when snoring is driven by nasal congestion or a narrow nasal valve. It is not a treatment for sleep apnoea — speak to a doctor if you suspect that.</p>" } },
+        "q3": { "type": "qa", "settings": { "question": "Can I reuse a strip?", "answer": "<p>No. Each strip is single use.</p>" } },
+        "q4": { "type": "qa", "settings": { "question": "What if it doesn't work for me?", "answer": "<p>Tell us within 30 nights and we'll refund you. You don't need to send the pack back.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4"],
+      "settings": { "eyebrow": "Answers", "heading": "Before you buy" }
+    }
+  },
+  "order": ["main", "badges", "how", "reviews", "faq"]
+}

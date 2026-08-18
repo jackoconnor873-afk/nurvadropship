@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'gift_cards.issued.title' | t: value: gift_card.balance | money, shop: shop.name }}</title>
+    {{ 'nurva.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <div class="section">
+      <div class="wrap wrap--narrow center stack">
+        <span class="eyebrow">{{ shop.name }}</span>
+        <h1 class="h1">Gift card</h1>
+        <p class="display tint">{{ gift_card.balance | money }}</p>
+        <p class="lede" style="margin-inline:auto">Use this code at checkout.</p>
+        <p class="pill">{{ gift_card.code | format_code }}</p>
+        <div><a class="btn btn--lg" href="{{ shop.url }}">Start shopping</a></div>
+      </div>
+    </div>
+  </body>
+</html>

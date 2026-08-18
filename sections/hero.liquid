@@ -1,0 +1,146 @@
+<section class="hero">
+  <div class="hero__bg">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '100vw',
+          widths: '600,900,1200,1600,2000,2400',
+          alt: section.settings.image.alt | default: shop.name }}
+    {%- endif -%}
+  </div>
+  <div class="hero__veil"></div>
+
+  {%- if section.settings.show_pulse -%}
+    <div class="hero__pulse" aria-hidden="true">
+      <span class="hero__ring"></span>
+      <span class="hero__ring"></span>
+      <span class="hero__ring"></span>
+      <span class="hero__ring"></span>
+    </div>
+  {%- endif -%}
+
+  <div class="wrap wrap--wide hero__inner">
+    <div class="hero__content">
+
+      {%- if section.settings.badge != blank -%}
+        <div class="hero__badge">
+          {%- if section.settings.badge_tag != blank -%}<b>{{ section.settings.badge_tag }}</b>{%- endif -%}
+          <span>{{ section.settings.badge }}</span>
+        </div>
+      {%- endif -%}
+
+      <h1 class="display hero__title">
+        {%- assign lines = section.settings.heading | newline_to_br | split: '<br />' -%}
+        {%- for line in lines -%}
+          {%- assign clean = line | strip -%}
+          {%- if clean != blank -%}
+            <span class="hero__line"><span>{{ clean }}</span></span>
+          {%- endif -%}
+        {%- endfor -%}
+      </h1>
+
+      {%- if section.settings.body != blank -%}
+        <p class="lede hero__copy" data-reveal data-reveal-delay="450">{{ section.settings.body }}</p>
+      {%- endif -%}
+
+      <div class="hero__cta" data-reveal data-reveal-delay="600">
+        {%- if section.settings.cta_label != blank -%}
+          <a class="btn btn--lg" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+            {{ section.settings.cta_label }}
+            {% render 'icon', name: 'arrow-right', size: 17 %}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.cta2_label != blank -%}
+          <a class="btn btn--lg btn--ghost" href="{{ section.settings.cta2_link }}">{{ section.settings.cta2_label }}</a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="hero__proof" data-reveal data-reveal-delay="750">
+          {%- for block in section.blocks -%}
+            <div class="hero__proof-item" {{ block.shopify_attributes }}>
+              {% render 'icon', name: block.settings.icon, size: 18 %}
+              <span>{{ block.settings.text }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.scroll_hint != blank -%}
+    <div class="hero__scroll" aria-hidden="true">
+      <i></i>
+      <span>{{ section.settings.scroll_hint }}</span>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image", "info": "Wide, dark, high-contrast works best. Leave empty for a pure black hero." },
+    { "type": "checkbox", "id": "show_pulse", "label": "Animated breathing rings", "default": true },
+    { "type": "text", "id": "badge_tag", "label": "Badge pill", "default": "PRO" },
+    { "type": "text", "id": "badge", "label": "Badge text", "default": "Premium nose strips" },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Headline",
+      "info": "One line per row — each line animates in separately.",
+      "default": "Breathe better.\nPerform better.\nLive better."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Sub-copy",
+      "default": "Nurva opens your nasal passage up to 38% wider so more air reaches your lungs — in the gym, on the road and through the night. Sweat-proof. Drug-free. Built to hold for 10 hours."
+    },
+    { "type": "text", "id": "cta_label", "label": "Primary button", "default": "Shop Nurva Pro" },
+    { "type": "url", "id": "cta_link", "label": "Primary link" },
+    { "type": "text", "id": "cta2_label", "label": "Secondary button", "default": "How it works" },
+    { "type": "url", "id": "cta2_link", "label": "Secondary link" },
+    { "type": "text", "id": "scroll_hint", "label": "Scroll hint", "default": "Scroll" }
+  ],
+  "blocks": [
+    {
+      "type": "proof",
+      "name": "Proof point",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Drug free" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "check-circle",
+          "options": [
+            { "value": "check-circle", "label": "Check" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "drop", "label": "Sweat proof" },
+            { "value": "bolt", "label": "Performance" },
+            { "value": "moon", "label": "Sleep" },
+            { "value": "leaf", "label": "Natural" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "lungs", "label": "Airflow" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        { "type": "proof", "settings": { "text": "Holds 10 hours", "icon": "clock" } },
+        { "type": "proof", "settings": { "text": "Sweat proof", "icon": "drop" } },
+        { "type": "proof", "settings": { "text": "Drug free", "icon": "leaf" } },
+        { "type": "proof", "settings": { "text": "Snore relief", "icon": "moon" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

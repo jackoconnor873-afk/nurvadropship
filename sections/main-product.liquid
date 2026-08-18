@@ -1,0 +1,248 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<div class="section">
+  <div class="wrap wrap--wide">
+    <div class="product">
+
+      <div class="product__gallery" data-gallery>
+        <div class="product__main-img" data-gallery-main>
+          {%- if product.featured_media -%}
+            {{ product.featured_media | image_url: width: 1400 | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                sizes: '(min-width: 900px) 50vw, 100vw',
+                widths: '500,700,900,1200,1400',
+                alt: product.featured_media.alt | default: product.title }}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+
+        {%- if product.media.size > 1 -%}
+          <div class="product__thumbs">
+            {%- for media in product.media limit: 10 -%}
+              <button
+                type="button"
+                class="product__thumb"
+                data-gallery-thumb
+                data-full="{{ media | image_url: width: 1400 }}"
+                aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                aria-label="View image {{ forloop.index }}">
+                {{ media | image_url: width: 240 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="product__info stack">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+
+            {%- when 'eyebrow' -%}
+              <span class="eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+
+            {%- when 'title' -%}
+              <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+
+            {%- when 'rating' -%}
+              <div class="product__rating" {{ block.shopify_attributes }}>
+                <span class="stars">
+                  {%- for i in (1..5) -%}{% render 'icon', name: 'star', size: 15 %}{%- endfor -%}
+                </span>
+                <span>{{ block.settings.text }}</span>
+              </div>
+
+            {%- when 'price' -%}
+              <div class="product__price-row" {{ block.shopify_attributes }}>
+                <span class="product__price" data-variant-price>{{ current_variant.price | money }}</span>
+                <span class="price__compare" data-variant-compare {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>
+                  {%- if current_variant.compare_at_price > current_variant.price -%}
+                    {{ current_variant.compare_at_price | money }}
+                  {%- endif -%}
+                </span>
+                {%- if block.settings.note != blank -%}
+                  <span class="muted" style="font-size:.84rem">{{ block.settings.note }}</span>
+                {%- endif -%}
+              </div>
+
+            {%- when 'description' -%}
+              <div class="rte muted" {{ block.shopify_attributes }}>
+                {%- if block.settings.text != blank -%}
+                  {{ block.settings.text }}
+                {%- else -%}
+                  {{ product.description }}
+                {%- endif -%}
+              </div>
+
+            {%- when 'benefits' -%}
+              <ul class="ticks stack" {{ block.shopify_attributes }}>
+                {%- assign benefit_lines = block.settings.items | newline_to_br | split: '<br />' -%}
+                {%- for benefit in benefit_lines -%}
+                  {%- assign benefit_clean = benefit | strip -%}
+                  {%- if benefit_clean != blank -%}
+                    <li class="tick">
+                      {% render 'icon', name: 'check-circle', size: 19 %}
+                      <div><b>{{ benefit_clean }}</b></div>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+
+            {%- when 'buy' -%}
+              <div data-buybar-anchor {{ block.shopify_attributes }}>
+                {%- form 'product', product, data-product-form: 'true', id: 'ProductForm' -%}
+                  <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+                  {%- unless product.has_only_default_variant -%}
+                    <div data-variant-picker class="stack" style="--stack:18px;margin-bottom:22px">
+                      {%- for option in product.options_with_values -%}
+                        <div class="opt stack" data-option-group>
+                          <span class="opt__label">{{ option.name }}</span>
+                          <div class="opt__choices">
+                            {%- for value in option.values -%}
+                              <label class="opt__choice">
+                                <input
+                                  type="radio"
+                                  name="option-{{ section.id }}-{{ forloop.parentloop.index0 }}"
+                                  value="{{ value | escape }}"
+                                  {% if option.selected_value == value %}checked{% endif %}>
+                                <span>{{ value }}</span>
+                              </label>
+                            {%- endfor -%}
+                          </div>
+                        </div>
+                      {%- endfor -%}
+
+                      <script type="application/json" data-variant-json>
+                        {{ product.variants | json }}
+                      </script>
+                    </div>
+                  {%- endunless -%}
+
+                  <div class="buy-row">
+                    <div class="qty" data-qty>
+                      <button type="button" data-qty-step="-1" aria-label="Decrease quantity">{% render 'icon', name: 'minus', size: 16 %}</button>
+                      <input type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+                      <button type="button" data-qty-step="1" aria-label="Increase quantity">{% render 'icon', name: 'plus', size: 16 %}</button>
+                    </div>
+
+                    <button
+                      type="submit"
+                      class="btn btn--lg"
+                      data-add-button
+                      data-add-text="{{ block.settings.button_label | default: 'Add to cart' }}"
+                      data-soldout-text="Sold out"
+                      data-unavailable-text="Unavailable"
+                      {% unless current_variant.available %}aria-disabled="true"{% endunless %}>
+                      {%- if current_variant.available -%}
+                        {{ block.settings.button_label | default: 'Add to cart' }}
+                      {%- else -%}
+                        Sold out
+                      {%- endif -%}
+                    </button>
+                  </div>
+
+                  <p class="form-error" data-form-error hidden></p>
+
+                  {%- if block.settings.show_dynamic_checkout -%}
+                    <div style="margin-top:12px">{{ form | payment_button }}</div>
+                  {%- endif -%}
+                {%- endform -%}
+              </div>
+
+            {%- when 'trust' -%}
+              <div class="trust-row" {{ block.shopify_attributes }}>
+                <div>{% render 'icon', name: 'truck', size: 18 %}<span>{{ block.settings.item_1 }}</span></div>
+                <div>{% render 'icon', name: 'shield', size: 18 %}<span>{{ block.settings.item_2 }}</span></div>
+                <div>{% render 'icon', name: 'leaf', size: 18 %}<span>{{ block.settings.item_3 }}</span></div>
+              </div>
+
+            {%- when 'collapsible' -%}
+              <div class="faq" data-faq {{ block.shopify_attributes }}>
+                <div class="faq__item" data-open="false">
+                  <h3>
+                    <button class="faq__q" type="button" aria-expanded="false">
+                      <span>{{ block.settings.heading }}</span>
+                      <span class="faq__sign" aria-hidden="true"></span>
+                    </button>
+                  </h3>
+                  <div class="faq__a"><div><div class="rte">{{ block.settings.body }}</div></div></div>
+                </div>
+              </div>
+
+            {%- when '@app' -%}
+              {% render block %}
+
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- if section.settings.show_sticky_bar -%}
+  <div class="buybar" data-buybar>
+    <div class="buybar__info">
+      <span class="buybar__name">{{ product.title | truncate: 34 }}</span>
+      <span class="buybar__price">{{ current_variant.price | money }}</span>
+    </div>
+    <button class="btn" type="submit" form="ProductForm">Add to cart</button>
+  </div>
+{%- endif -%}
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "show_sticky_bar", "label": "Sticky add-to-cart bar", "default": true }
+  ],
+  "blocks": [
+    { "type": "eyebrow", "name": "Eyebrow", "limit": 1, "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Perform | Breathe | Recover" }] },
+    { "type": "title", "name": "Title", "limit": 1, "settings": [] },
+    { "type": "rating", "name": "Rating", "limit": 1, "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "4.8 from 2,400+ reviews" }] },
+    { "type": "price", "name": "Price", "limit": 1, "settings": [{ "type": "text", "id": "note", "label": "Note", "default": "Free shipping over $35" }] },
+    { "type": "description", "name": "Description", "limit": 1, "settings": [{ "type": "richtext", "id": "text", "label": "Override text", "info": "Leave empty to use the product description." }] },
+    {
+      "type": "benefits",
+      "name": "Benefit list",
+      "settings": [
+        { "type": "textarea", "id": "items", "label": "Items", "info": "One per line.", "default": "Up to 10 hours of hold\nSweat-proof medical-grade adhesive\nDrug free, latex free, hypoallergenic\nWorks for training and for sleep" }
+      ]
+    },
+    {
+      "type": "buy",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Add to cart" },
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button", "default": true }
+      ]
+    },
+    {
+      "type": "trust",
+      "name": "Trust row",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "item_1", "label": "Item 1", "default": "Ships in 1 business day" },
+        { "type": "text", "id": "item_2", "label": "Item 2", "default": "30-night guarantee" },
+        { "type": "text", "id": "item_3", "label": "Item 3", "default": "Drug free" }
+      ]
+    },
+    {
+      "type": "collapsible",
+      "name": "Collapsible row",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "How to apply" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Clean and dry the bridge of your nose. Peel the liner, centre the strip just above the flare of your nostrils, press the ends for five seconds. Remove under warm water.</p>" }
+      ]
+    },
+    { "type": "@app" }
+  ]
+}
+{% endschema %}

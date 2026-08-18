@@ -1,0 +1,45 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Nurva Performance",
+    "theme_version": "1.0.0",
+    "theme_author": "Nurva",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/manual/online-store/themes"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon", "info": "32 x 32 px recommended." },
+      { "type": "image_picker", "id": "share_image", "label": "Social sharing image", "info": "1200 x 630 px recommended." }
+    ]
+  },
+  {
+    "name": "Colours",
+    "settings": [
+      { "type": "header", "content": "Base" },
+      { "type": "color", "id": "color_bg", "label": "Background", "default": "#05070a" },
+      { "type": "color", "id": "color_bg_alt", "label": "Raised background", "default": "#0a0e13" },
+      { "type": "color", "id": "color_text", "label": "Text", "default": "#f4f7f9" },
+      { "type": "header", "content": "Accent" },
+      { "type": "color", "id": "color_accent", "label": "Accent", "default": "#14a5b8" },
+      { "type": "color", "id": "color_accent_bright", "label": "Accent — bright", "default": "#3bddef" },
+      { "type": "color", "id": "color_accent_deep", "label": "Accent — deep", "default": "#0c7280" }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "label": "Content width", "min": 1100, "max": 1600, "step": 20, "unit": "px", "default": 1280 }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      { "type": "url", "id": "social_instagram", "label": "Instagram" },
+      { "type": "url", "id": "social_tiktok", "label": "TikTok" },
+      { "type": "url", "id": "social_facebook", "label": "Facebook" },
+      { "type": "url", "id": "social_youtube", "label": "YouTube" }
+    ]
+  }
+]

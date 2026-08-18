@@ -1,0 +1,16 @@
+<div class="section">
+  <div class="wrap center empty-state stack">
+    <span class="eyebrow">Error 404</span>
+    <h1 class="display outline-text" style="line-height:.9">404</h1>
+    <h2 class="h2">This page took a breath and left</h2>
+    <p class="lede" style="margin-inline:auto">The link is broken or the page has moved. Let's get you back to something useful.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn--lg" href="{{ routes.all_products_collection_url }}">Shop Nurva</a>
+      <a class="btn btn--lg btn--ghost" href="{{ routes.root_url }}">Back home</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "404", "tag": "section", "settings": [] }
+{% endschema %}

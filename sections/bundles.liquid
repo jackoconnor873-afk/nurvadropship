@@ -1,0 +1,168 @@
+<div class="section {% if section.settings.raised %}section--raised{% endif %}" id="bundles">
+  <div class="wrap">
+    <div class="sec-head sec-head--center stack" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.body != blank -%}<p class="lede">{{ section.settings.body }}</p>{%- endif -%}
+    </div>
+
+    <div class="bundles reveal-stagger">
+      {%- for block in section.blocks -%}
+        {%- assign bundle_product = block.settings.product -%}
+        {%- assign bundle_variant = blank -%}
+        {%- if bundle_product != blank -%}
+          {%- assign bundle_variant = bundle_product.selected_or_first_available_variant -%}
+        {%- endif -%}
+
+        <div class="bundle {% if block.settings.best %}bundle--best{% endif %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.flag != blank -%}
+            <span class="bundle__flag">{{ block.settings.flag }}</span>
+          {%- endif -%}
+
+          <div>
+            <div class="bundle__qty">{{ block.settings.title }}</div>
+            {%- if block.settings.subtitle != blank -%}
+              <div class="bundle__sub">{{ block.settings.subtitle }}</div>
+            {%- endif -%}
+          </div>
+
+          <div>
+            <div class="bundle__price">
+              <span class="bundle__now">
+                {%- if bundle_variant != blank -%}
+                  {{ bundle_variant.price | money }}
+                {%- else -%}
+                  {{ block.settings.price }}
+                {%- endif -%}
+              </span>
+              {%- if bundle_variant != blank and bundle_variant.compare_at_price > bundle_variant.price -%}
+                <span class="bundle__was">{{ bundle_variant.compare_at_price | money }}</span>
+              {%- elsif block.settings.compare_price != blank -%}
+                <span class="bundle__was">{{ block.settings.compare_price }}</span>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.save_text != blank -%}
+              <div class="bundle__save">{{ block.settings.save_text }}</div>
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.features != blank -%}
+            <ul class="bundle__list stack">
+              {%- assign feature_lines = block.settings.features | newline_to_br | split: '<br />' -%}
+              {%- for feature in feature_lines -%}
+                {%- assign feature_clean = feature | strip -%}
+                {%- if feature_clean != blank -%}
+                  <li>{% render 'icon', name: 'check', size: 15 %}<span>{{ feature_clean }}</span></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          {%- if bundle_variant != blank -%}
+            {%- form 'product', bundle_product, data-product-form: 'true', class: 'bundle__form' -%}
+              <input type="hidden" name="id" value="{{ bundle_variant.id }}" data-variant-id>
+              <input type="hidden" name="quantity" value="1">
+              <button
+                type="submit"
+                class="btn btn--block {% unless block.settings.best %}btn--ghost{% endunless %}"
+                data-add-button
+                data-add-text="{{ block.settings.cta_label | default: 'Add to cart' }}"
+                data-soldout-text="Sold out"
+                {% unless bundle_variant.available %}aria-disabled="true"{% endunless %}>
+                {%- if bundle_variant.available -%}
+                  {{ block.settings.cta_label | default: 'Add to cart' }}
+                {%- else -%}
+                  Sold out
+                {%- endif -%}
+              </button>
+              <p class="form-error" data-form-error hidden></p>
+            {%- endform -%}
+          {%- else -%}
+            <a class="btn btn--block {% unless block.settings.best %}btn--ghost{% endunless %}"
+               href="{{ block.settings.link | default: routes.all_products_collection_url }}">
+              {{ block.settings.cta_label | default: 'Add to cart' }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="center muted" style="margin-top:26px;font-size:.8rem">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bundles",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "raised", "label": "Raised background", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Choose your pack" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Stock up and save" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Most people use one strip a night. The 3-pack is where the maths starts working in your favour." },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "Free shipping over $35 · 30-night guarantee · Cancel a subscription any time" }
+  ],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Pack",
+      "limit": 3,
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product", "info": "Connect a real product so the button adds straight to cart." },
+        { "type": "text", "id": "title", "label": "Title", "default": "1 Pack" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "30 strips · 1 month supply" },
+        { "type": "checkbox", "id": "best", "label": "Highlight as best value", "default": false },
+        { "type": "text", "id": "flag", "label": "Flag text", "info": "e.g. Most popular" },
+        { "type": "text", "id": "price", "label": "Price (fallback if no product)", "default": "$24.99" },
+        { "type": "text", "id": "compare_price", "label": "Compare-at price (fallback)" },
+        { "type": "text", "id": "save_text", "label": "Savings line" },
+        { "type": "textarea", "id": "features", "label": "Features", "info": "One per line.", "default": "30 sweat-proof strips\nFree tracked shipping over $35\n30-night guarantee" },
+        { "type": "text", "id": "cta_label", "label": "Button label", "default": "Add to cart" },
+        { "type": "url", "id": "link", "label": "Button link (fallback)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundles",
+      "blocks": [
+        {
+          "type": "bundle",
+          "settings": {
+            "title": "Starter",
+            "subtitle": "30 strips · 1 month",
+            "price": "$24.99",
+            "features": "30 sweat-proof strips\nTracked shipping\n30-night guarantee"
+          }
+        },
+        {
+          "type": "bundle",
+          "settings": {
+            "title": "3-Pack",
+            "subtitle": "90 strips · 3 months",
+            "best": true,
+            "flag": "Most popular",
+            "price": "$59.99",
+            "compare_price": "$74.97",
+            "save_text": "Save 20% · $0.66 per night",
+            "features": "90 sweat-proof strips\nFree express shipping\n30-night guarantee\nFree travel tin"
+          }
+        },
+        {
+          "type": "bundle",
+          "settings": {
+            "title": "6-Pack",
+            "subtitle": "180 strips · 6 months",
+            "price": "$104.99",
+            "compare_price": "$149.94",
+            "save_text": "Save 30% · $0.58 per night",
+            "features": "180 sweat-proof strips\nFree express shipping\n30-night guarantee\nFree travel tin"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

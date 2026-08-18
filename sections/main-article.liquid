@@ -1,0 +1,36 @@
+<article class="section">
+  <div class="wrap wrap--narrow">
+    <div class="sec-head stack" data-reveal>
+      <span class="eyebrow">{{ article.published_at | date: '%B %d, %Y' }}</span>
+      <h1 class="h1">{{ article.title }}</h1>
+      {%- if article.author != blank -%}
+        <p class="muted">By {{ article.author }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if article.image -%}
+      <div style="border-radius:var(--radius-lg);overflow:hidden;margin-bottom:40px" data-reveal="scale">
+        {{ article.image | image_url: width: 1600 | image_tag: loading: 'eager', alt: article.title, sizes: '100vw', widths: '600,900,1200,1600' }}
+      </div>
+    {%- endif -%}
+
+    <div class="rte" data-reveal>{{ article.content }}</div>
+
+    {%- if blog.comments_enabled? -%}
+      <div style="margin-top:60px">
+        <h2 class="h3">Comments</h2>
+        {%- for comment in article.comments -%}
+          <div style="padding-block:20px;border-bottom:1px solid var(--line)">
+            <div class="card__title">{{ comment.author }}</div>
+            <div class="quote__meta">{{ comment.created_at | date: '%B %d, %Y' }}</div>
+            <p class="muted" style="margin-top:8px">{{ comment.content }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</article>
+
+{% schema %}
+{ "name": "Article", "tag": "section", "settings": [] }
+{% endschema %}

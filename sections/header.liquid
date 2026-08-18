@@ -1,0 +1,111 @@
+<header class="header" data-header>
+  <div class="wrap wrap--wide header__inner">
+
+    <a class="header__logo" href="{{ routes.root_url }}">
+      {%- if section.settings.logo != blank -%}
+        <img
+          src="{{ section.settings.logo | image_url: width: 400 }}"
+          alt="{{ shop.name | escape }}"
+          width="200"
+          height="40"
+          loading="eager">
+      {%- else -%}
+        <span class="header__logo-word">{{ section.settings.logo_text | default: shop.name }}</span>
+        {%- if section.settings.logo_sub != blank -%}
+          <span class="header__logo-sub">{{ section.settings.logo_sub }}</span>
+        {%- endif -%}
+      {%- endif -%}
+    </a>
+
+    <nav class="nav" aria-label="{{ 'general.nav.primary' | t | default: 'Primary' }}">
+      {%- for link in section.settings.menu.links -%}
+        <a
+          class="nav__link"
+          href="{{ link.url }}"
+          {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="header__actions">
+      {%- if section.settings.show_search -%}
+        <a class="icon-btn header__search" href="{{ routes.search_url }}" aria-label="{{ 'general.search.search' | t | default: 'Search' }}">
+          {% render 'icon', name: 'search', size: 19 %}
+        </a>
+      {%- endif -%}
+
+      {%- if shop.customer_accounts_enabled and section.settings.show_account -%}
+        <a class="icon-btn header__account" href="{{ routes.account_url }}" aria-label="{{ 'customer.account.title' | t | default: 'Account' }}">
+          {% render 'icon', name: 'user', size: 19 %}
+        </a>
+      {%- endif -%}
+
+      <a class="icon-btn" href="{{ routes.cart_url }}" aria-label="{{ 'sections.cart.title' | t | default: 'Cart' }}">
+        {% render 'icon', name: 'cart', size: 19 %}
+        <span class="cart-count" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn btn--sm header__cta" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+
+      <button class="icon-btn burger" type="button" data-drawer-open aria-expanded="false" aria-controls="MobileDrawer" aria-label="Open menu">
+        {% render 'icon', name: 'menu', size: 20 %}
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="MobileDrawer" data-drawer data-open="false">
+  <div class="drawer__scrim" data-drawer-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="drawer__head">
+      <span class="header__logo-word">{{ section.settings.logo_text | default: shop.name }}</span>
+      <button class="icon-btn" type="button" data-drawer-close aria-label="Close menu">
+        {% render 'icon', name: 'x', size: 18 %}
+      </button>
+    </div>
+
+    <nav class="drawer__nav" aria-label="Mobile">
+      {%- for link in section.settings.menu.links -%}
+        <a class="drawer__link" href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    {%- if section.settings.cta_label != blank -%}
+      <a class="btn btn--block" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+        {{ section.settings.cta_label }}
+      </a>
+    {%- endif -%}
+
+    <div class="socials">
+      {%- if settings.social_instagram != blank -%}
+        <a class="icon-btn" href="{{ settings.social_instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram', size: 18 %}</a>
+      {%- endif -%}
+      {%- if settings.social_tiktok != blank -%}
+        <a class="icon-btn" href="{{ settings.social_tiktok }}" aria-label="TikTok">{% render 'icon', name: 'tiktok', size: 18 %}</a>
+      {%- endif -%}
+      {%- if settings.social_facebook != blank -%}
+        <a class="icon-btn" href="{{ settings.social_facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook', size: 18 %}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image" },
+    { "type": "text", "id": "logo_text", "label": "Logo text (if no image)", "default": "NURVA" },
+    { "type": "text", "id": "logo_sub", "label": "Logo sub-text", "default": "Performance" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
+    { "type": "checkbox", "id": "show_account", "label": "Show account", "default": true },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop now" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

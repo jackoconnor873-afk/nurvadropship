@@ -1,0 +1,31 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "m1": { "type": "message", "settings": { "text": "Free shipping over $35", "icon": "truck" } },
+        "m2": { "type": "message", "settings": { "text": "30-night breathe-better guarantee", "icon": "shield" } },
+        "m3": { "type": "message", "settings": { "text": "Rated 4.8 by 2,400+ athletes", "icon": "star" } }
+      },
+      "block_order": ["m1", "m2", "m3"],
+      "settings": {
+        "bg": "#0c7280",
+        "text_color": "#ffffff"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_text": "NURVA",
+        "logo_sub": "Performance",
+        "menu": "main-menu",
+        "show_search": true,
+        "show_account": true,
+        "cta_label": "Shop now"
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

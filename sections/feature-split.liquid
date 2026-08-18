@@ -1,0 +1,93 @@
+<div class="section {% if section.settings.raised %}section--raised{% endif %}">
+  <div class="wrap">
+    <div class="split {% if section.settings.flip %}split--flip{% endif %}">
+
+      <div class="split__media" data-reveal="{% if section.settings.flip %}right{% else %}left{% endif %}">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag:
+              loading: 'lazy',
+              sizes: '(min-width: 900px) 50vw, 100vw',
+              widths: '500,700,900,1200,1400',
+              alt: section.settings.image.alt | default: section.settings.heading }}
+        {%- else -%}
+          <div class="split__placeholder">
+            {% render 'icon', name: 'lungs', size: 44 %}
+            <span>{{ section.settings.placeholder_label | default: 'Add your product image' }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="split__body stack" data-reveal="{% if section.settings.flip %}left{% else %}right{% endif %}">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+        {%- if section.settings.body != blank -%}<p class="lede">{{ section.settings.body }}</p>{%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="ticks stack">
+            {%- for block in section.blocks -%}
+              <li class="tick" {{ block.shopify_attributes }}>
+                {% render 'icon', name: 'check-circle', size: 20 %}
+                <div>
+                  <b>{{ block.settings.title }}</b>
+                  {%- if block.settings.body != blank -%}<p>{{ block.settings.body }}</p>{%- endif -%}
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.cta_label != blank -%}
+          <div>
+            <a class="btn" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+              {{ section.settings.cta_label }}
+              {% render 'icon', name: 'arrow-right', size: 16 %}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Feature split",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "placeholder_label", "label": "Placeholder caption", "default": "Add your product image" },
+    { "type": "checkbox", "id": "flip", "label": "Image on the right", "default": false },
+    { "type": "checkbox", "id": "raised", "label": "Raised background", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The science" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your nose is the bottleneck" },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Up to half of all airway resistance sits in the narrowest part of your nasal valve. Nurva's dual spring bands lift that valve open from the outside — no drugs, no sprays, no habit forming ingredients. Just a bigger pipe for the air you already breathe."
+    },
+    { "type": "text", "id": "cta_label", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Dual-band spring tension" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Two flex bands instead of one, so the lift holds through sweat, movement and side sleeping." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature split",
+      "blocks": [
+        { "type": "point", "settings": { "title": "Dual-band spring tension", "body": "Two flex bands instead of one, so the lift holds through sweat, movement and side sleeping." } },
+        { "type": "point", "settings": { "title": "Hypoallergenic adhesive", "body": "Latex-free, skin-safe and gentle on removal — even on sensitive or shaved skin." } },
+        { "type": "point", "settings": { "title": "Contour-cut for the nasal valve", "body": "Shaped to sit exactly where resistance is highest, not just across the bridge." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

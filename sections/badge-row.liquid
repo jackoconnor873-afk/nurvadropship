@@ -1,0 +1,89 @@
+<div class="section {% if section.settings.raised %}section--raised{% endif %}">
+  <div class="wrap">
+    {%- if section.settings.heading != blank -%}
+      <div class="sec-head sec-head--center stack" data-reveal>
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+        {%- if section.settings.body != blank -%}<p class="lede">{{ section.settings.body }}</p>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="badges reveal-stagger">
+      {%- for block in section.blocks -%}
+        <div class="badge-ring" {{ block.shopify_attributes }}>
+          <div class="badge-ring__disc">
+            {%- if block.settings.value != blank -%}
+              <span class="badge-ring__value">
+                {%- if block.settings.animate -%}
+                  <span data-count="{{ block.settings.value | replace: '%', '' | replace: '+', '' | replace: 'x', '' }}"
+                        data-suffix="{{ block.settings.value_suffix }}"></span>
+                {%- else -%}
+                  {{ block.settings.value }}
+                {%- endif -%}
+              </span>
+            {%- else -%}
+              {% render 'icon', name: block.settings.icon, size: 38 %}
+            {%- endif -%}
+          </div>
+          <span class="badge-ring__label">{{ block.settings.label }}</span>
+          {%- if block.settings.note != blank -%}
+            <span class="badge-ring__note">{{ block.settings.note }}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Badge row",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "raised", "label": "Raised background", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Perform | Breathe | Recover" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Engineered for every hour you're awake — and every one you're not" },
+    { "type": "textarea", "id": "body", "label": "Body" }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Big value", "info": "Leave empty to show an icon instead.", "default": "10" },
+        { "type": "text", "id": "value_suffix", "label": "Value suffix", "default": "" },
+        { "type": "checkbox", "id": "animate", "label": "Count up on scroll", "default": true },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon (when no value)",
+          "default": "drop",
+          "options": [
+            { "value": "drop", "label": "Sweat proof" },
+            { "value": "bolt", "label": "Performance" },
+            { "value": "moon", "label": "Snoring relief" },
+            { "value": "clock", "label": "Duration" },
+            { "value": "lungs", "label": "Airflow" },
+            { "value": "leaf", "label": "Drug free" },
+            { "value": "shield", "label": "Guarantee" },
+            { "value": "flask", "label": "Tested" }
+          ]
+        },
+        { "type": "text", "id": "label", "label": "Label", "default": "Hours of relief" },
+        { "type": "text", "id": "note", "label": "Note" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Badge row",
+      "blocks": [
+        { "type": "badge", "settings": { "value": "10", "animate": true, "label": "Hours of relief", "note": "One strip holds from warm-up to lights out." } },
+        { "type": "badge", "settings": { "value": "", "icon": "drop", "label": "Sweat proof", "note": "Medical-grade adhesive that won't peel mid-set." } },
+        { "type": "badge", "settings": { "value": "", "icon": "bolt", "label": "Performance boost", "note": "More airflow means more oxygen where it counts." } },
+        { "type": "badge", "settings": { "value": "", "icon": "moon", "label": "Snoring relief", "note": "Quieter nights, deeper recovery, sharper mornings." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

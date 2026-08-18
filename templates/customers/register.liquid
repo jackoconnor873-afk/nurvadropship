@@ -1,0 +1,27 @@
+<div class="section">
+  <div class="wrap wrap--narrow stack">
+    <div class="sec-head stack"><span class="eyebrow">Account</span><h1 class="h1">Create account</h1></div>
+    {%- form 'create_customer' -%}
+      {{ form.errors | default_errors }}
+      <div class="stack">
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="RegisterFirst">First name</label>
+          <input class="signup-input" type="text" name="customer[first_name]" id="RegisterFirst" autocomplete="given-name">
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="RegisterLast">Last name</label>
+          <input class="signup-input" type="text" name="customer[last_name]" id="RegisterLast" autocomplete="family-name">
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="RegisterEmail">Email</label>
+          <input class="signup-input" type="email" name="customer[email]" id="RegisterEmail" autocomplete="email" required>
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="RegisterPassword">Password</label>
+          <input class="signup-input" type="password" name="customer[password]" id="RegisterPassword" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn">Create account</button>
+      </div>
+    {%- endform -%}
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="section {% if section.settings.raised %}section--raised{% endif %}">
+  <div class="wrap">
+    <div class="sec-head sec-head--center stack" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.body != blank -%}<p class="lede">{{ section.settings.body }}</p>{%- endif -%}
+    </div>
+
+    <div class="compare-scroll" data-reveal>
+      <table class="compare">
+        <thead>
+          <tr>
+            <th scope="col"><span class="visually-hidden">Feature</span></th>
+            <th scope="col" class="is-us">{{ section.settings.col_us | default: 'Nurva' }}</th>
+            <th scope="col">{{ section.settings.col_b | default: 'Standard drug-store strips' }}</th>
+            <th scope="col">{{ section.settings.col_c | default: 'Internal dilators' }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <th scope="row">{{ block.settings.feature }}</th>
+
+              <td class="is-us">
+                {%- if block.settings.us_text != blank -%}
+                  <span class="cell-text" style="color:var(--teal-bright)">{{ block.settings.us_text }}</span>
+                {%- elsif block.settings.us -%}
+                  <span class="yes">{% render 'icon', name: 'check', size: 20 %}</span>
+                {%- else -%}
+                  <span class="no">{% render 'icon', name: 'x', size: 18 %}</span>
+                {%- endif -%}
+              </td>
+
+              <td>
+                {%- if block.settings.b_text != blank -%}
+                  <span class="cell-text">{{ block.settings.b_text }}</span>
+                {%- elsif block.settings.b -%}
+                  <span class="yes">{% render 'icon', name: 'check', size: 20 %}</span>
+                {%- else -%}
+                  <span class="no">{% render 'icon', name: 'x', size: 18 %}</span>
+                {%- endif -%}
+              </td>
+
+              <td>
+                {%- if block.settings.c_text != blank -%}
+                  <span class="cell-text">{{ block.settings.c_text }}</span>
+                {%- elsif block.settings.c -%}
+                  <span class="yes">{% render 'icon', name: 'check', size: 20 %}</span>
+                {%- else -%}
+                  <span class="no">{% render 'icon', name: 'x', size: 18 %}</span>
+                {%- endif -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="center muted" style="margin-top:20px;font-size:.76rem">
+      {{ section.settings.footnote }}
+    </p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Comparison table",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "raised", "label": "Raised background", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why Nurva" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Not all strips are built the same" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "We took the standard nasal strip apart and rebuilt it for people who sweat, train and want to sleep properly afterwards." },
+    { "type": "text", "id": "col_us", "label": "Column 1 (yours)", "default": "Nurva Pro" },
+    { "type": "text", "id": "col_b", "label": "Column 2", "default": "Drug-store strips" },
+    { "type": "text", "id": "col_c", "label": "Column 3", "default": "Internal dilators" },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "Comparison based on typical product specifications in each category. Not a claim about any specific competing product." }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "text", "id": "feature", "label": "Feature", "default": "Sweat-proof adhesive" },
+        { "type": "checkbox", "id": "us", "label": "Yours — yes", "default": true },
+        { "type": "text", "id": "us_text", "label": "Yours — text instead of tick" },
+        { "type": "checkbox", "id": "b", "label": "Column 2 — yes", "default": false },
+        { "type": "text", "id": "b_text", "label": "Column 2 — text instead of tick" },
+        { "type": "checkbox", "id": "c", "label": "Column 3 — yes", "default": false },
+        { "type": "text", "id": "c_text", "label": "Column 3 — text instead of tick" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison table",
+      "blocks": [
+        { "type": "row", "settings": { "feature": "Hold time", "us_text": "Up to 10 hours", "b_text": "4–6 hours", "c_text": "Varies" } },
+        { "type": "row", "settings": { "feature": "Sweat & humidity proof", "us": true, "b": false, "c": true } },
+        { "type": "row", "settings": { "feature": "Dual spring bands", "us": true, "b": false, "c": false } },
+        { "type": "row", "settings": { "feature": "Nothing inserted in the nose", "us": true, "b": true, "c": false } },
+        { "type": "row", "settings": { "feature": "Drug free", "us": true, "b": true, "c": true } },
+        { "type": "row", "settings": { "feature": "Hypoallergenic, latex free", "us": true, "b_text": "Sometimes", "c_text": "Sometimes" } },
+        { "type": "row", "settings": { "feature": "Designed for training and sleep", "us": true, "b": false, "c": false } },
+        { "type": "row", "settings": { "feature": "Cost per night", "us_text": "From $0.55", "b_text": "$0.80+", "c_text": "$1.20+" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

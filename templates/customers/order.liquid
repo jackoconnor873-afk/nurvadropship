@@ -1,0 +1,31 @@
+<div class="section">
+  <div class="wrap stack">
+    <div class="sec-head stack">
+      <span class="eyebrow">{{ order.created_at | date: '%B %d, %Y' }}</span>
+      <h1 class="h1">Order {{ order.name }}</h1>
+    </div>
+
+    <div class="compare-scroll">
+      <table class="compare">
+        <thead><tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
+        <tbody>
+          {%- for line_item in order.line_items -%}
+            <tr>
+              <th scope="row">{{ line_item.title }}</th>
+              <td class="cell-text">{{ line_item.price | money }}</td>
+              <td class="cell-text">{{ line_item.quantity }}</td>
+              <td class="cell-text">{{ line_item.line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cart-summary stack" style="max-width:360px;margin-left:auto">
+      <div class="cart-summary__row"><span class="muted">Subtotal</span><strong>{{ order.line_items_subtotal_price | money }}</strong></div>
+      <div class="cart-summary__row"><span class="muted">Shipping</span><strong>{{ order.shipping_price | money }}</strong></div>
+      <div class="cart-summary__row"><span class="muted">Tax</span><strong>{{ order.tax_price | money }}</strong></div>
+      <div class="cart-summary__row"><span>Total</span><strong class="tint">{{ order.total_price | money }}</strong></div>
+    </div>
+  </div>
+</div>

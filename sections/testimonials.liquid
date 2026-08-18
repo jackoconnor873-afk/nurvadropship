@@ -1,0 +1,74 @@
+<div class="section {% if section.settings.raised %}section--raised{% endif %}">
+  <div class="wrap wrap--wide">
+    <div class="sec-head sec-head--split" data-reveal>
+      <div class="stack">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+      </div>
+      {%- if section.settings.rating_text != blank -%}
+        <div class="stack" style="--stack:8px">
+          <div class="stars">
+            {%- for i in (1..5) -%}{% render 'icon', name: 'star', size: 17 %}{%- endfor -%}
+          </div>
+          <span class="muted" style="font-size:.86rem">{{ section.settings.rating_text }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="quotes" data-reveal>
+      {%- for block in section.blocks -%}
+        <figure class="quote stack" {{ block.shopify_attributes }}>
+          <div class="stars">
+            {%- assign rating = block.settings.rating | default: 5 -%}
+            {%- for i in (1..rating) -%}{% render 'icon', name: 'star', size: 15 %}{%- endfor -%}
+          </div>
+          <blockquote class="quote__text">{{ block.settings.quote }}</blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar">{{ block.settings.name | slice: 0 }}</span>
+            <span>
+              <span class="quote__name">{{ block.settings.name }}</span><br>
+              <span class="quote__meta">{{ block.settings.meta }}</span>
+            </span>
+          </figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "raised", "label": "Raised background", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real users" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What happens when you stop fighting for air" },
+    { "type": "text", "id": "rating_text", "label": "Rating summary", "default": "4.8 average from 2,400+ verified reviews" }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "First run where I wasn't gasping through my mouth by kilometre three." },
+        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "name", "label": "Name", "default": "Marcus T." },
+        { "type": "text", "id": "meta", "label": "Detail", "default": "Verified buyer · Marathon runner" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        { "type": "quote", "settings": { "quote": "First run where I wasn't gasping through my mouth by kilometre three. Stayed put for the whole 21k, sweat and all.", "name": "Marcus T.", "meta": "Verified buyer · Half marathon" } },
+        { "type": "quote", "settings": { "quote": "My partner stopped elbowing me at 2am. That alone was worth it. Now I use one every single night.", "name": "Priya R.", "meta": "Verified buyer · Nightly user" } },
+        { "type": "quote", "settings": { "quote": "I've tried the big drug-store brand for years. These hold twice as long and don't curl at the edges when I sweat.", "name": "Danny K.", "meta": "Verified buyer · CrossFit" } },
+        { "type": "quote", "settings": { "quote": "Deviated septum since I was 19. This isn't a cure, but it's the first thing that's made a noticeable difference at night.", "name": "Sofia L.", "meta": "Verified buyer · Nightly user" } },
+        { "type": "quote", "settings": { "quote": "Sleep tracker went from 68 to 84 on average within two weeks. I'm not claiming causation but I'm not stopping either.", "name": "Owen B.", "meta": "Verified buyer · Cyclist" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

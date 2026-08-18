@@ -1,0 +1,42 @@
+<div class="section">
+  <div class="wrap wrap--narrow stack">
+    <div class="sec-head stack"><span class="eyebrow">Account</span><h1 class="h1">Addresses</h1></div>
+    <a class="link-arrow" href="{{ routes.account_url }}">Back to account</a>
+
+    {%- paginate customer.addresses by 10 -%}
+      {%- for address in customer.addresses -%}
+        <div style="padding-block:22px;border-bottom:1px solid var(--line)">
+          <div class="muted">{{ address | format_address }}</div>
+        </div>
+      {%- endfor -%}
+    {%- endpaginate -%}
+
+    {%- form 'customer_address', customer.new_address -%}
+      {{ form.errors | default_errors }}
+      <div class="stack" style="margin-top:30px">
+        <h2 class="h3">Add a new address</h2>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="AddressFirst">First name</label>
+          <input class="signup-input" type="text" id="AddressFirst" name="address[first_name]">
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="AddressLast">Last name</label>
+          <input class="signup-input" type="text" id="AddressLast" name="address[last_name]">
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="AddressStreet">Address</label>
+          <input class="signup-input" type="text" id="AddressStreet" name="address[address1]">
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="AddressCity">City</label>
+          <input class="signup-input" type="text" id="AddressCity" name="address[city]">
+        </div>
+        <div class="stack" style="--stack:8px">
+          <label class="opt__label" for="AddressZip">Postal / ZIP code</label>
+          <input class="signup-input" type="text" id="AddressZip" name="address[zip]">
+        </div>
+        <button type="submit" class="btn">Save address</button>
+      </div>
+    {%- endform -%}
+  </div>
+</div>

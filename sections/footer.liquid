@@ -1,0 +1,107 @@
+<footer class="footer">
+  <div class="wrap wrap--wide">
+    <div class="footer__grid">
+
+      <div class="footer__brand" data-reveal>
+        <div class="header__logo">
+          <span class="header__logo-word">{{ section.settings.logo_text | default: shop.name }}</span>
+          <span class="header__logo-sub">{{ section.settings.logo_sub }}</span>
+        </div>
+        {%- if section.settings.blurb != blank -%}
+          <p class="muted">{{ section.settings.blurb }}</p>
+        {%- endif -%}
+        {%- if section.settings.tagline != blank -%}
+          <p class="eyebrow">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+
+        <div class="socials">
+          {%- if settings.social_instagram != blank -%}
+            <a class="icon-btn" href="{{ settings.social_instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram', size: 18 %}</a>
+          {%- endif -%}
+          {%- if settings.social_tiktok != blank -%}
+            <a class="icon-btn" href="{{ settings.social_tiktok }}" aria-label="TikTok">{% render 'icon', name: 'tiktok', size: 18 %}</a>
+          {%- endif -%}
+          {%- if settings.social_facebook != blank -%}
+            <a class="icon-btn" href="{{ settings.social_facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook', size: 18 %}</a>
+          {%- endif -%}
+          {%- if settings.social_youtube != blank -%}
+            <a class="icon-btn" href="{{ settings.social_youtube }}" aria-label="YouTube">{% render 'icon', name: 'youtube', size: 18 %}</a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'menu' -%}
+            <div {{ block.shopify_attributes }} data-reveal>
+              <p class="footer__col-title">{{ block.settings.heading }}</p>
+              <ul class="footer__links stack">
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </div>
+
+          {%- when 'text' -%}
+            <div {{ block.shopify_attributes }} data-reveal>
+              <p class="footer__col-title">{{ block.settings.heading }}</p>
+              <div class="rte muted" style="font-size:.92rem">{{ block.settings.body }}</div>
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.show_wordmark -%}
+      <div class="footer__wordmark" aria-hidden="true">{{ section.settings.logo_text | default: shop.name }}</div>
+    {%- endif -%}
+
+    <div class="footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
+      <span>{{ powered_by_link }}</span>
+    </div>
+
+    {%- if section.settings.disclaimer != blank -%}
+      <p class="disclaimer">{{ section.settings.disclaimer }}</p>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "NURVA" },
+    { "type": "text", "id": "logo_sub", "label": "Logo sub-text", "default": "Performance" },
+    { "type": "textarea", "id": "blurb", "label": "About text", "default": "Premium performance nasal strips engineered for training, recovery and deeper sleep. Open your airway, unlock your output." },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Breathe Pure | Live Pure" },
+    { "type": "checkbox", "id": "show_wordmark", "label": "Show oversized wordmark", "default": true },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "Legal disclaimer",
+      "default": "Nurva nasal strips are a drug-free external nasal dilator intended to temporarily relieve nasal congestion and reduce or eliminate snoring caused by nasal congestion. These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure or prevent any disease. Consult a physician if symptoms persist."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Support" },
+        { "type": "richtext", "id": "body", "label": "Text", "default": "<p>Questions? Email hello@nurva.com and we'll reply within one business day.</p>" }
+      ]
+    }
+  ],
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}
