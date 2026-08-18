@@ -376,7 +376,6 @@ window.Nurva = { boot: boot, refreshCartCount: refreshCartCount };
 {% endraw %}</script>
 
 <script>
-/* Failsafe: if anything is still hidden after 4s, show it anyway. */
 setTimeout(function(){
   document.querySelectorAll(".nurva [data-reveal]:not(.is-in),.nurva .reveal-stagger:not(.is-in)")
     .forEach(function(el){ el.classList.add("is-in"); });

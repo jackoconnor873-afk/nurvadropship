@@ -247,9 +247,65 @@ BUNDLES_LIQUID = r'''{%- comment -%}
 
 # ---------------------------------------------------------------- assemble
 
+# Build the markup first so we know which classes are actually used, then keep
+# only the CSS rules those classes need. The full stylesheet also covers the
+# header, footer, cart, product page and card grids, none of which appear in
+# these pasted blocks.
+
+markup = {
+    '3-hero.liquid': ('NURVA — Block 3 of 6: hero + scrolling band.', wrap('HERO', 'MARQUEE')),
+    '4-benefits.liquid': ('NURVA — Block 4 of 6: badges, science, stats, how it works, use cases.',
+                          wrap('BADGE ROW', 'SCIENCE SPLIT', 'STATS', 'HOW IT WORKS', 'USE CASES')),
+    '5-compare-and-buy.liquid': ('NURVA — Block 5 of 6: comparison table + buy boxes. EDIT THE HANDLE BELOW.',
+                                 wrap('COMPARISON') + '\n' + BUNDLES_LIQUID),
+    '6-reviews-faq-cta.liquid': ('NURVA — Block 6 of 6: reviews, FAQ, email capture.',
+                                 wrap('TESTIMONIALS', 'FAQ', 'CTA BAND')),
+}
+
+all_markup = '\n'.join(m for _, m in markup.values())
+used = set(re.findall(r'class="([^"]*)"', all_markup))
+used = {c for group in used for c in group.split()}
+# classes the scripts add at runtime, plus the wrapper itself
+used |= {'nurva', 'is-in', 'is-stuck', 'is-visible', 'no-js', 'placeholder-svg'}
+
+def rule_is_used(selectors):
+    """Keep a rule if every class it names is present in the markup."""
+    for sel in selectors.split(','):
+        classes = re.findall(r'\.([A-Za-z0-9_-]+)', sel)
+        classes = [c for c in classes if c != 'nurva']
+        if all(c in used for c in classes):
+            return True
+    return False
+
+def prune(css):
+    out, i, n = [], 0, len(css)
+    while i < n:
+        j = css.find('{', i)
+        if j == -1:
+            out.append(css[i:]); break
+        prelude = css[i:j].strip()
+        depth, k = 1, j + 1
+        while k < n and depth:
+            if css[k] == '{': depth += 1
+            elif css[k] == '}': depth -= 1
+            k += 1
+        bodytext = css[j + 1:k - 1]
+        if prelude.startswith('@'):
+            at = re.split(r'[\s(]', prelude, 1)[0].lower()
+            if at in ('@media', '@supports', '@layer', '@container'):
+                inner = prune(bodytext)
+                if inner.strip():
+                    out.append(prelude + '{' + inner + '}')
+            else:
+                out.append(prelude + '{' + bodytext + '}')
+        elif rule_is_used(prelude):
+            out.append(prelude + '{' + bodytext + '}')
+        i = k
+    return ''.join(out)
+
 # A host theme's own element selectors (h2{color}, .section{background}, …) can
 # bleed INTO the pasted markup wherever our CSS relied on inheritance. This
-# neutralises that first; every rule below it is more specific and still wins.
+# neutralises that first; every rule after it is more specific and still wins.
 DEFENSIVE = (
     ".nurva h1,.nurva h2,.nurva h3,.nurva h4,.nurva h5,.nurva h6,"
     ".nurva p,.nurva div,.nurva span,.nurva a,.nurva ul,.nurva ol,.nurva li,"
@@ -264,9 +320,9 @@ DEFENSIVE = (
     "margin:0;padding:0;border:0;border-radius:0;box-shadow:none;list-style:none}"
 )
 
-css = scope_css(minify_css(read('assets/nurva.css')), PREFIX)
-css = DEFENSIVE + css
-js  = trim_js(read('assets/nurva.js'))
+full_css = scope_css(minify_css(read('assets/nurva.css')), PREFIX)
+lean_css = DEFENSIVE + prune(full_css)
+js = trim_js(read('assets/nurva.js'))
 
 files = {}
 
@@ -281,7 +337,7 @@ files['1-styles.liquid'] = (
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
     'family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700'
     '&family=Montserrat:wght@600;700;800&display=swap">\n\n'
-    '<style>{% raw %}\n' + css + '\n{% endraw %}</style>\n\n'
+    '<style>{% raw %}\n' + lean_css + '\n{% endraw %}</style>\n\n'
     '<noscript><style>.nurva [data-reveal],.nurva .reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>\n'
 )
 
@@ -292,7 +348,6 @@ files['2-scripts.liquid'] = (
     '{%- endcomment -%}\n\n'
     '<script>{% raw %}\n' + js + '\n{% endraw %}</script>\n\n'
     '<script>\n'
-    '/* Failsafe: if anything is still hidden after 4s, show it anyway. */\n'
     'setTimeout(function(){\n'
     '  document.querySelectorAll(".nurva [data-reveal]:not(.is-in),.nurva .reveal-stagger:not(.is-in)")\n'
     '    .forEach(function(el){ el.classList.add("is-in"); });\n'
@@ -300,36 +355,18 @@ files['2-scripts.liquid'] = (
     '</script>\n'
 )
 
-files['3-hero.liquid'] = (
-    '{%- comment -%} NURVA — Block 3 of 6: hero + scrolling band. {%- endcomment -%}\n\n'
-    + wrap('HERO', 'MARQUEE')
-)
-
-files['4-benefits.liquid'] = (
-    '{%- comment -%} NURVA — Block 4 of 6: badges, science, stats, how it works, use cases. {%- endcomment -%}\n\n'
-    + wrap('BADGE ROW', 'SCIENCE SPLIT', 'STATS', 'HOW IT WORKS', 'USE CASES')
-)
-
-files['5-compare-and-buy.liquid'] = (
-    '{%- comment -%} NURVA — Block 5 of 6: comparison table + buy boxes. EDIT THE HANDLE BELOW. {%- endcomment -%}\n\n'
-    + wrap('COMPARISON') + '\n' + BUNDLES_LIQUID
-)
-
-files['6-reviews-faq-cta.liquid'] = (
-    '{%- comment -%} NURVA — Block 6 of 6: reviews, FAQ, email capture. {%- endcomment -%}\n\n'
-    + wrap('TESTIMONIALS', 'FAQ', 'CTA BAND')
-)
+for name, (label, body_html) in markup.items():
+    files[name] = '{%- comment -%} ' + label + ' {%- endcomment -%}\n\n' + body_html
 
 LIMIT = 50000
 os.makedirs(os.path.join(ROOT, 'paste'), exist_ok=True)
+print('css: full %d -> lean %d chars' % (len(full_css), len(lean_css)))
 print(f'{"file":<32}{"chars":>8}   limit {LIMIT}')
 print('-' * 56)
 ok = True
 for name, content in files.items():
-    path = os.path.join(ROOT, 'paste', name)
-    open(path, 'w', encoding='utf-8').write(content)
+    open(os.path.join(ROOT, 'paste', name), 'w', encoding='utf-8').write(content)
     size = len(content)
-    flag = 'OK' if size < LIMIT else 'TOO BIG'
     if size >= LIMIT: ok = False
-    print(f'{name:<32}{size:>8}   {flag}')
+    print(f'{name:<32}{size:>8}   {"OK" if size < LIMIT else "TOO BIG"}')
 raise SystemExit(0 if ok else 1)
