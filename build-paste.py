@@ -320,9 +320,43 @@ DEFENSIVE = (
     "margin:0;padding:0;border:0;border-radius:0;box-shadow:none;list-style:none}"
 )
 
+# Only a few of the theme's behaviours apply to these blocks: there is no
+# header, drawer, gallery, variant picker or cart badge here. Lift just the
+# functions that run, straight out of nurva.js so the two cannot drift.
+PASTE_FNS = ['ready', 'initReveal', 'initCounters', 'initAccordion', 'initMarquee']
+
+def extract_fn(js, name):
+    m = re.search(r'^function\s+' + name + r'\s*\(', js, re.M)
+    if not m:
+        raise SystemExit('could not find function ' + name + ' in nurva.js')
+    i = js.index('{', m.end() - 1)
+    depth, k = 1, i + 1
+    while depth and k < len(js):
+        if js[k] == '{': depth += 1
+        elif js[k] == '}': depth -= 1
+        k += 1
+    return js[m.start():k]
+
+def paste_js(js):
+    fns = '\n'.join(extract_fn(js, n) for n in PASTE_FNS)
+    return (
+        "(function () {\n'use strict';\n"
+        "var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;\n"
+        + fns + "\n"
+        "function boot(root) {\n"
+        "initReveal(root);\n"
+        "initCounters(root);\n"
+        "initAccordion(root);\n"
+        "initMarquee(root);\n"
+        "}\n"
+        "ready(function () { boot(document); });\n"
+        "document.addEventListener('shopify:section:load', function (e) { boot(e.target); });\n"
+        "})();"
+    )
+
 full_css = scope_css(minify_css(read('assets/nurva.css')), PREFIX)
 lean_css = DEFENSIVE + prune(full_css)
-js = trim_js(read('assets/nurva.js'))
+js = paste_js(trim_js(read('assets/nurva.js')))
 
 files = {}
 
