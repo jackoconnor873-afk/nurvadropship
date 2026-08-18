@@ -252,6 +252,26 @@ BUNDLES_LIQUID = r'''{%- comment -%}
 # header, footer, cart, product page and card grids, none of which appear in
 # these pasted blocks.
 
+# The static preview markup has a dead newsletter form. In Shopify it should be
+# a real customer form so the address is actually captured.
+NEWSLETTER_STATIC = """        <form class="signup" onsubmit="return false">
+          <label class="visually-hidden" for="NewsletterEmail">Email</label>
+          <input id="NewsletterEmail" type="email" placeholder="you@email.com" autocomplete="email" required>
+          <button type="submit" class="btn">Get my code</button>
+        </form>"""
+
+NEWSLETTER_LIQUID = """        {%- form 'customer' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="signup">
+            <label class="visually-hidden" for="NurvaNewsletterEmail">Email</label>
+            <input id="NurvaNewsletterEmail" type="email" name="contact[email]" placeholder="you@email.com" autocomplete="email" required>
+            <button type="submit" class="btn">Get my code</button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <p class="form-note" style="color:var(--teal-bright)">Thanks — check your inbox for the code.</p>
+          {%- endif -%}
+        {%- endform -%}"""
+
 markup = {
     '3-hero.liquid': ('NURVA — Block 3 of 6: hero + scrolling band.', wrap('HERO', 'MARQUEE')),
     '4-benefits.liquid': ('NURVA — Block 4 of 6: badges, science, stats, how it works, use cases.',
@@ -259,7 +279,7 @@ markup = {
     '5-compare-and-buy.liquid': ('NURVA — Block 5 of 6: comparison table + buy boxes. EDIT THE HANDLE BELOW.',
                                  wrap('COMPARISON') + '\n' + BUNDLES_LIQUID),
     '6-reviews-faq-cta.liquid': ('NURVA — Block 6 of 6: reviews, FAQ, email capture.',
-                                 wrap('TESTIMONIALS', 'FAQ', 'CTA BAND')),
+                                 wrap('TESTIMONIALS', 'FAQ', 'CTA BAND').replace(NEWSLETTER_STATIC, NEWSLETTER_LIQUID)),
 }
 
 all_markup = '\n'.join(m for _, m in markup.values())

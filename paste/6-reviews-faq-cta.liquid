@@ -120,11 +120,17 @@
         <h2 class="h1">Get 15% off your first pack</h2>
         <p class="lede" style="margin-inline:auto">Training tips, breathing protocols and early access to new drops. No spam — unsubscribe any time.</p>
 
-        <form class="signup" onsubmit="return false">
-          <label class="visually-hidden" for="NewsletterEmail">Email</label>
-          <input id="NewsletterEmail" type="email" placeholder="you@email.com" autocomplete="email" required>
-          <button type="submit" class="btn">Get my code</button>
-        </form>
+        {%- form 'customer' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="signup">
+            <label class="visually-hidden" for="NurvaNewsletterEmail">Email</label>
+            <input id="NurvaNewsletterEmail" type="email" name="contact[email]" placeholder="you@email.com" autocomplete="email" required>
+            <button type="submit" class="btn">Get my code</button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <p class="form-note" style="color:var(--teal-bright)">Thanks — check your inbox for the code.</p>
+          {%- endif -%}
+        {%- endform -%}
 
         <p class="form-note">By subscribing you agree to receive marketing emails from Nurva.</p>
       </div>
