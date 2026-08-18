@@ -1,18 +1,29 @@
 # Copy-paste blocks for the Shopify editor
 
-Six blocks you paste into **Custom Liquid** sections. Unlike plain HTML, these use
-Liquid — so block 5 pulls your real product price and its **Add to cart** buttons
-actually work.
+There are two routes. Pick one — you do not need both.
 
-## Where to paste
+## Route A — one file in the code editor (fewest steps)
 
-1. Shopify admin → **Online Store → Themes → Customize**
-2. Pick the page you want (usually **Home page** in the top dropdown)
-3. **Add section → Custom Liquid**
-4. Paste one file's entire contents into the **Liquid** box → **Save**
-5. Repeat for each block, keeping them in order
+Use `nurva-home.liquid`.
 
-Add six Custom Liquid sections, one per file, top to bottom:
+1. **Online Store → Themes → ⋯ → Edit code**
+2. In the **Sections** folder, click **Add a new section**
+3. Name it `nurva-home` — Shopify adds the `.liquid` itself. If it complains
+   about a `.liquid` extension you typed a name it did not like; plain
+   lowercase letters and hyphens only, no spaces, no dots.
+4. Delete whatever Shopify pre-filled, paste the whole file in, **Save**
+5. **Customize → Add section → Nurva home**
+6. Click the section and **pick your product** from the dropdown — no code
+   editing needed
+
+## Route B — six Custom Liquid blocks (no code editor)
+
+Use the six numbered files. This route never asks for a filename.
+
+1. **Online Store → Themes → Customize**
+2. **Add section → Custom Liquid**
+3. Paste one file into the **Liquid** box → **Save**
+4. Repeat, keeping the blocks in order
 
 | Order | File | What it is | Edit anything? |
 |---|---|---|---|
@@ -25,7 +36,10 @@ Add six Custom Liquid sections, one per file, top to bottom:
 
 Blocks 1 and 2 look empty in the editor — that's expected, they're styles and scripts.
 
-## Linking your product (block 5)
+## Linking your product (Route B, block 5)
+
+Route A uses a product picker instead — nothing to edit.
+
 
 Near the top of `5-compare-and-buy.liquid`:
 

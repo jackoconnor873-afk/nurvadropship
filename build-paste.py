@@ -8,7 +8,7 @@ Differences from the uploadable theme:
   * The bundle buttons are real Liquid product forms, so they add to cart.
   * Each file stays well under Shopify's 50,000-character liquid-setting limit.
 """
-import re, os
+import re, os, json
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 def read(p): return open(os.path.join(ROOT, p), encoding='utf-8').read()
@@ -423,4 +423,60 @@ for name, content in files.items():
     size = len(content)
     if size >= LIMIT: ok = False
     print(f'{name:<32}{size:>8}   {"OK" if size < LIMIT else "TOO BIG"}')
+# ---------------------------------------------------------------- single section file
+# For the code editor (Online Store -> Edit code -> Sections -> Add a new section),
+# which asks for a filename ending in .liquid. One file, no 50k limit, and the
+# product becomes a picker in the theme editor instead of a handle in the code.
+
+section_bundles = re.sub(
+    r"\{%- comment -%\}\s*=+.*?=+\s*\{%- endcomment -%\}\s*"
+    r"\{%- assign nurva_handle = .*? -%\}\s*"
+    r"\{%- assign np = all_products\[nurva_handle\] -%\}",
+    "{%- assign np = section.settings.product -%}",
+    BUNDLES_LIQUID, flags=re.S)
+
+if 'section.settings.product' not in section_bundles:
+    raise SystemExit('failed to rewrite the bundles product source')
+
+section_schema = json.dumps({
+    "name": "Nurva home",
+    "tag": "section",
+    "settings": [
+        {"type": "header", "content": "Your product"},
+        {"type": "product", "id": "product", "label": "Product",
+         "info": "Pick your nasal strips product. With 3 variants (1/3/6 pack) all three buy cards fill in; with 1 variant only the first is live."}
+    ],
+    "presets": [{"name": "Nurva home"}]
+}, indent=2)
+
+section_file = (
+    "{%- comment -%}\n"
+    "  NURVA PERFORMANCE — complete home page section.\n"
+    "\n"
+    "  Online Store -> Themes -> Edit code -> Sections -> Add a new section,\n"
+    "  name it  nurva-home  (Shopify adds the .liquid), paste this in, Save.\n"
+    "  Then Customize -> Add section -> Nurva home, and pick your product there.\n"
+    "\n"
+    "  Styles are scoped under .nurva and cannot affect the rest of your theme.\n"
+    "{%- endcomment -%}\n\n"
+    '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+    '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
+    'family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700'
+    '&family=Montserrat:wght@600;700;800&display=swap">\n\n'
+    "<style>{% raw %}\n" + lean_css + "\n{% endraw %}</style>\n\n"
+    '<noscript><style>.nurva [data-reveal],.nurva .reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>\n\n'
+    "<script>{% raw %}\n" + js + "\n{% endraw %}</script>\n\n"
+    + wrap('HERO', 'MARQUEE') + "\n"
+    + wrap('BADGE ROW', 'SCIENCE SPLIT', 'STATS', 'HOW IT WORKS', 'USE CASES') + "\n"
+    + wrap('COMPARISON') + "\n"
+    + section_bundles + "\n"
+    + wrap('TESTIMONIALS', 'FAQ', 'CTA BAND').replace(NEWSLETTER_STATIC, NEWSLETTER_LIQUID) + "\n"
+    + "{% schema %}\n" + section_schema + "\n{% endschema %}\n"
+)
+
+open(os.path.join(ROOT, 'paste', 'nurva-home.liquid'), 'w', encoding='utf-8').write(section_file)
+print()
+print('single section file: paste/nurva-home.liquid  (%d chars)' % len(section_file))
+
 raise SystemExit(0 if ok else 1)
