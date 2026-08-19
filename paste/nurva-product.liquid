@@ -1,0 +1,616 @@
+{%- comment -%}
+  NURVA PERFORMANCE — product page section.
+
+  Online Store -> Themes -> Edit code -> Sections -> Add a new section,
+  name it  nurva-product  (Shopify adds the .liquid), paste this in, Save.
+  Then open your PRODUCT template (Edit code -> Templates -> product.json,
+  or Customize -> pick a product -> Add section) and add Nurva product.
+
+  Uses the page's own `product` object automatically — nothing to pick.
+  Styles are scoped under .nurva and cannot affect the rest of your theme.
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap">
+
+<style>{% raw %}
+.nurva h1,.nurva h2,.nurva h3,.nurva h4,.nurva h5,.nurva h6,.nurva p,.nurva div,.nurva span,.nurva a,.nurva ul,.nurva ol,.nurva li,.nurva blockquote,.nurva figure,.nurva figcaption,.nurva section,.nurva form,.nurva table,.nurva thead,.nurva tbody,.nurva tr,.nurva th,.nurva td,.nurva label,.nurva input,.nurva button,.nurva b,.nurva i,.nurva em,.nurva strong,.nurva svg{color:inherit;background-color:transparent;background-image:none;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-align:inherit;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;list-style:none}.nurva{--ink: #05070a;--ink-2: #0a0e13;--surface: #0d1319;--surface-2: #131b23;--line: rgba(255,255,255,0.09);--line-strong: rgba(255,255,255,0.18);--teal: #14a5b8;--teal-bright: #3bddef;--teal-deep: #0c7280;--teal-soft: rgba(20,165,184,0.14);--text: #f4f7f9;--text-muted: #93a2ad;--text-dim: #64727d;--paper: #ffffff;--paper-ink: #05070a;--font-display: "Barlow Condensed","Oswald","Arial Narrow",sans-serif;--font-brand: "Montserrat","Helvetica Neue",Arial,sans-serif;--font-body: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--page: 1280px;--page-wide: 1560px;--gutter: clamp(20px,5vw,64px);--section-y: clamp(64px,9vw,132px);--ease: cubic-bezier(0.22,1,0.36,1);--ease-in-out: cubic-bezier(0.65,0,0.35,1);--dur: 0.55s;--radius: 4px;--radius-lg: 14px;--radius-pill: 999px;--shadow-glow: 0 0 0 1px rgba(59,221,239,0.28),0 18px 60px -24px rgba(20,165,184,0.65)}.nurva,.nurva *,.nurva *::before,.nurva *::after{box-sizing: border-box}.nurva{-webkit-text-size-adjust: 100%;scroll-behavior: smooth;scroll-padding-top: 96px}.nurva{margin: 0;background: var(--ink);color: var(--text);font-family: var(--font-body);font-size: 16px;line-height: 1.65;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;overflow-x: hidden}.nurva img,.nurva svg,.nurva video{display: block;max-width: 100%;height: auto}.nurva button,.nurva input,.nurva select,.nurva textarea{font: inherit;color: inherit}.nurva button{cursor: pointer;background: none;border: 0;padding: 0}.nurva a{color: inherit;text-decoration: none}.nurva h1,.nurva h2,.nurva h3,.nurva h4,.nurva h5,.nurva h6,.nurva p,.nurva figure,.nurva ul,.nurva ol{margin: 0}.nurva ul,.nurva ol{padding: 0;list-style: none}.nurva table{border-collapse: collapse;width: 100%}.nurva ::selection{background: var(--teal);color: #fff}.nurva :focus-visible{outline: 2px solid var(--teal-bright);outline-offset: 3px;border-radius: 2px}.nurva .wrap{width: 100%;max-width: var(--page);margin-inline: auto;padding-inline: var(--gutter)}.nurva .wrap--wide{max-width: var(--page-wide)}.nurva .wrap--narrow{max-width: 820px}.nurva .section{padding-block: var(--section-y);position: relative}.nurva .section--raised{background: var(--ink-2)}.nurva .grid{display: grid;gap: clamp(20px,3vw,34px)}.nurva .grid--4{grid-template-columns: repeat(4,minmax(0,1fr))}@media (max-width: 989px){.nurva .grid--4{grid-template-columns: repeat(2,minmax(0,1fr))}}@media (max-width: 749px){.nurva .grid--2,.nurva .grid--3,.nurva .grid--4{grid-template-columns: minmax(0,1fr)}}.nurva .stack > * + *{margin-top: var(--stack,18px)}.nurva .display,.nurva .h1,.nurva .h2,.nurva .h3{font-family: var(--font-display);font-weight: 800;text-transform: uppercase;line-height: 0.92;letter-spacing: -0.005em;margin: 0}.nurva .h2{font-size: clamp(2.1rem,4.6vw,3.9rem)}.nurva .h3{font-size: clamp(1.35rem,2.2vw,1.9rem);line-height: 1.05}.nurva .eyebrow{font-family: var(--font-brand);font-size: 0.72rem;font-weight: 700;letter-spacing: 0.28em;text-transform: uppercase;color: var(--teal-bright);display: block}.nurva .muted{color: var(--text-muted)}.nurva .rte{--stack: 1em}.nurva .rte h2,.nurva .rte h3{font-family: var(--font-display);text-transform: uppercase;margin-top: 1.4em}.nurva .rte a{color: var(--teal-bright);text-decoration: underline;text-underline-offset: 3px}.nurva .rte ul{list-style: disc;padding-left: 1.2em}.nurva .rte ol{list-style: decimal;padding-left: 1.2em}.nurva .rte li + li{margin-top: 0.4em}.nurva .rte img{border-radius: var(--radius-lg);margin-block: 1.4em}.nurva .btn{--btn-bg: var(--teal);--btn-fg: #ffffff;position: relative;display: inline-flex;align-items: center;justify-content: center;gap: 10px;padding: 17px 34px;font-family: var(--font-brand);font-weight: 700;font-size: 0.82rem;letter-spacing: 0.14em;text-transform: uppercase;background: var(--btn-bg);color: var(--btn-fg);border-radius: var(--radius-pill);border: 1px solid transparent;overflow: hidden;isolation: isolate;transition: transform 0.35s var(--ease),box-shadow 0.35s var(--ease),color 0.35s var(--ease),border-color 0.35s var(--ease)}.nurva .btn::after{content: "";position: absolute;inset: 0;z-index: -1;background: linear-gradient(100deg,var(--teal-bright),var(--teal));transform: translateY(101%);transition: transform 0.45s var(--ease)}.nurva .btn:hover,.nurva .btn:focus-visible{transform: translateY(-2px);box-shadow: 0 16px 40px -18px rgba(20,165,184,0.9)}.nurva .btn:hover::after,.nurva .btn:focus-visible::after{transform: translateY(0)}.nurva .btn:active{transform: translateY(0)}.nurva .btn--lg{padding: 20px 42px;font-size: 0.88rem}.nurva .btn[disabled],.nurva .btn[aria-disabled="true"]{opacity: 0.45;pointer-events: none}@keyframes heroDrift{from{transform: scale(1.04) translate3d(0,0,0)}to{transform: scale(1.12) translate3d(-1.5%,-1.5%,0)}}@keyframes breathe{0%{transform: scale(0.42);opacity: 0}22%{opacity: 0.85}100%{transform: scale(1.12);opacity: 0}}@keyframes heroRise{to{transform: translateY(0)}}@keyframes scrollHint{0%,100%{transform: scaleY(0.3);transform-origin: top;opacity: 0.4}50%{transform: scaleY(1);transform-origin: top;opacity: 1}}@keyframes marquee{to{transform: translateX(-50%)}}.nurva .sec-head{max-width: 760px;--stack: 18px}.nurva .sec-head--center{margin-inline: auto;text-align: center}.nurva .sec-head + *{margin-top: clamp(38px,5vw,66px)}.nurva .badges{display: grid;grid-template-columns: repeat(4,minmax(0,1fr));gap: clamp(16px,3vw,40px)}@media (max-width: 749px){.nurva .badges{grid-template-columns: repeat(2,minmax(0,1fr))}}.nurva .badge-ring{display: flex;flex-direction: column;align-items: center;text-align: center;gap: 16px}.nurva .badge-ring__disc{position: relative;display: grid;place-items: center;width: clamp(96px,12vw,132px);aspect-ratio: 1;border-radius: 50%;border: 1px dashed rgba(255,255,255,0.22);color: var(--teal-bright)}.nurva .badge-ring__disc::after{content: "";position: absolute;inset: 9px;border-radius: 50%;border: 1px solid var(--line);transition: border-color 0.4s var(--ease),transform 0.6s var(--ease)}.nurva .badge-ring:hover .badge-ring__disc::after{border-color: var(--teal);transform: scale(1.06)}.nurva .badge-ring__disc svg{width: 38px;height: 38px}.nurva .badge-ring__value{font-family: var(--font-display);font-size: 2.6rem;font-weight: 800;line-height: 1;color: var(--text)}.nurva .badge-ring__label{font-family: var(--font-brand);font-size: 0.7rem;font-weight: 700;letter-spacing: 0.18em;text-transform: uppercase}.nurva .badge-ring__note{font-size: 0.86rem;color: var(--text-muted);max-width: 22ch}.nurva .ticks{--stack: 14px}.nurva .tick{display: flex;align-items: flex-start;gap: 14px}.nurva .tick svg{flex: none;margin-top: 3px;color: var(--teal-bright)}.nurva .tick b{display: block;font-family: var(--font-brand);font-weight: 700;font-size: 0.98rem;margin-bottom: 3px}.nurva .tick p{color: var(--text-muted);font-size: 0.94rem}.nurva .steps{counter-reset: step;position: relative}.nurva .steps__line{position: absolute;top: 46px;left: 8%;right: 8%;height: 1px;background: linear-gradient(90deg,transparent,var(--line-strong),transparent)}@media (max-width: 749px){.nurva .steps__line{display: none}}.nurva .step{text-align: center;--stack: 14px;position: relative}.nurva .step__disc{position: relative;display: grid;place-items: center;width: 92px;height: 92px;margin: 0 auto 24px;border-radius: 50%;background: var(--ink);border: 1px solid var(--line-strong);font-family: var(--font-display);font-size: 2rem;font-weight: 800;color: var(--teal-bright);transition: border-color 0.4s var(--ease),color 0.4s var(--ease),transform 0.5s var(--ease)}.nurva .step:hover .step__disc{border-color: var(--teal);transform: translateY(-4px)}.nurva .step__disc::after{content: "";position: absolute;inset: -10px;border-radius: 50%;border: 1px solid rgba(59,221,239,0.2);opacity: 0;transition: opacity 0.4s var(--ease),transform 0.6s var(--ease);transform: scale(0.9)}.nurva .step:hover .step__disc::after{opacity: 1;transform: scale(1)}.nurva .quotes{display: flex;gap: clamp(18px,2.2vw,28px);overflow-x: auto;scroll-snap-type: x mandatory;padding-bottom: 12px;scrollbar-width: thin}.nurva .quotes::-webkit-scrollbar{height: 4px}.nurva .quotes::-webkit-scrollbar-thumb{background: var(--line-strong);border-radius: 4px}.nurva .quote{flex: 0 0 min(400px,84vw);scroll-snap-align: start;padding: clamp(26px,3vw,36px);border: 1px solid var(--line);border-radius: var(--radius-lg);background: linear-gradient(160deg,rgba(255,255,255,0.05),rgba(255,255,255,0.012));--stack: 16px;transition: border-color 0.4s var(--ease),transform 0.4s var(--ease)}.nurva .quote:hover{border-color: rgba(59,221,239,0.32);transform: translateY(-4px)}.nurva .stars{display: flex;gap: 3px;color: var(--teal-bright)}.nurva .quote__text{font-size: 1.02rem;line-height: 1.65}.nurva .quote__who{display: flex;align-items: center;gap: 12px;padding-top: 16px;border-top: 1px solid var(--line)}.nurva .quote__avatar{display: grid;place-items: center;width: 40px;height: 40px;border-radius: 50%;background: var(--teal-soft);border: 1px solid rgba(59,221,239,0.3);font-family: var(--font-brand);font-weight: 700;font-size: 0.82rem;color: var(--teal-bright);flex: none}.nurva .quote__name{font-family: var(--font-brand);font-weight: 700;font-size: 0.9rem}.nurva .quote__meta{font-size: 0.76rem;color: var(--text-dim)}.nurva .faq{border-top: 1px solid var(--line)}.nurva .faq__item{border-bottom: 1px solid var(--line)}.nurva .faq__q{display: flex;align-items: center;justify-content: space-between;gap: 22px;width: 100%;padding: 26px 0;text-align: left;font-family: var(--font-brand);font-weight: 600;font-size: clamp(1rem,1.5vw,1.14rem);transition: color 0.3s var(--ease)}.nurva .faq__q:hover{color: var(--teal-bright)}.nurva .faq__sign{position: relative;flex: none;width: 34px;height: 34px;border-radius: 50%;border: 1px solid var(--line-strong);transition: border-color 0.35s var(--ease),background 0.35s var(--ease)}.nurva .faq__sign::before,.nurva .faq__sign::after{content: "";position: absolute;top: 50%;left: 50%;width: 13px;height: 1.5px;background: currentColor;transform: translate(-50%,-50%);transition: transform 0.4s var(--ease),opacity 0.3s var(--ease)}.nurva .faq__sign::after{transform: translate(-50%,-50%) rotate(90deg)}.nurva .faq__item[data-open="true"] .faq__sign{border-color: var(--teal);background: var(--teal-soft)}.nurva .faq__item[data-open="true"] .faq__sign::after{transform: translate(-50%,-50%) rotate(0deg);opacity: 0}.nurva .faq__a{display: grid;grid-template-rows: 0fr;transition: grid-template-rows 0.45s var(--ease)}.nurva .faq__item[data-open="true"] .faq__a{grid-template-rows: 1fr}.nurva .faq__a > div{overflow: hidden}.nurva .faq__a p{padding-bottom: 26px;max-width: 68ch;color: var(--text-muted)}.nurva .form-error{color: #ff8080;font-size: 0.85rem;margin-top: 10px}.nurva .price__compare{color: var(--text-dim);text-decoration: line-through;margin-left: 8px;font-size: 0.9em}.nurva .product{display: grid;grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr);gap: clamp(30px,5vw,70px);align-items: start}@media (max-width: 899px){.nurva .product{grid-template-columns: minmax(0,1fr)}}.nurva .product__gallery{position: sticky;top: 100px;display: grid;gap: 14px}@media (max-width: 899px){.nurva .product__gallery{position: static}}.nurva .product__main-img{border-radius: var(--radius-lg);overflow: hidden;background: var(--surface);aspect-ratio: 1}.nurva .product__main-img img{width: 100%;height: 100%;object-fit: cover}.nurva .product__thumbs{display: grid;grid-template-columns: repeat(5,minmax(0,1fr));gap: 10px}.nurva .product__thumb{border-radius: 8px;overflow: hidden;border: 1px solid var(--line);background: var(--surface);aspect-ratio: 1;transition: border-color 0.3s var(--ease),transform 0.3s var(--ease)}.nurva .product__thumb:hover,.nurva .product__thumb[aria-current="true"]{border-color: var(--teal);transform: translateY(-2px)}.nurva .product__thumb img{width: 100%;height: 100%;object-fit: cover}.nurva .product__info{--stack: 22px}.nurva .product__title{font-family: var(--font-display);font-size: clamp(2.2rem,4vw,3.4rem);font-weight: 800;text-transform: uppercase;line-height: 0.95}.nurva .product__price-row{display: flex;align-items: baseline;gap: 14px;flex-wrap: wrap}.nurva .product__price{font-family: var(--font-display);font-size: 2.2rem;font-weight: 800}.nurva .product__rating{display: flex;align-items: center;gap: 10px;font-size: 0.85rem;color: var(--text-muted)}.nurva .opt{--stack: 10px}.nurva .opt__label{font-family: var(--font-brand);font-size: 0.7rem;font-weight: 700;letter-spacing: 0.16em;text-transform: uppercase;color: var(--text-muted)}.nurva .opt__choices{display: flex;flex-wrap: wrap;gap: 10px}.nurva .opt__choice{padding: 12px 20px;border: 1px solid var(--line-strong);border-radius: var(--radius-pill);font-family: var(--font-brand);font-size: 0.8rem;font-weight: 600;transition: all 0.3s var(--ease)}.nurva .opt__choice:hover{border-color: var(--teal)}.nurva .opt__choice input{position: absolute;opacity: 0;pointer-events: none}.nurva .opt__choice:has(input:checked){background: var(--teal);border-color: var(--teal);color: #fff}.nurva .qty{display: inline-flex;align-items: center;border: 1px solid var(--line-strong);border-radius: var(--radius-pill);overflow: hidden}.nurva .qty button{width: 46px;height: 52px;display: grid;place-items: center;transition: background 0.3s var(--ease)}.nurva .qty button:hover{background: var(--surface)}.nurva .qty input{width: 46px;height: 52px;border: 0;background: transparent;text-align: center;font-family: var(--font-brand);font-weight: 700;-moz-appearance: textfield}.nurva .qty input::-webkit-outer-spin-button,.nurva .qty input::-webkit-inner-spin-button{-webkit-appearance: none;margin: 0}.nurva .buy-row{display: flex;gap: 12px;align-items: center;flex-wrap: wrap}.nurva .buy-row .btn{flex: 1;min-width: 200px}.nurva .trust-row{display: grid;grid-template-columns: repeat(3,minmax(0,1fr));gap: 14px;padding-top: 22px;border-top: 1px solid var(--line)}@media (max-width: 599px){.nurva .trust-row{grid-template-columns: repeat(1,minmax(0,1fr))}}.nurva .trust-row div{display: flex;align-items: center;gap: 10px;font-size: 0.8rem;color: var(--text-muted)}.nurva .trust-row svg{flex: none;color: var(--teal-bright)}.nurva .buybar{position: fixed;left: 0;right: 0;bottom: 0;z-index: 80;display: flex;align-items: center;gap: 14px;padding: 12px var(--gutter);background: rgba(10,14,19,0.92);backdrop-filter: blur(16px);-webkit-backdrop-filter: blur(16px);border-top: 1px solid var(--line);transform: translateY(110%);transition: transform 0.45s var(--ease)}.nurva .buybar.is-visible{transform: translateY(0)}.nurva .buybar__info{display: flex;flex-direction: column;line-height: 1.25}.nurva .buybar__name{font-family: var(--font-brand);font-weight: 700;font-size: 0.88rem}.nurva .buybar__price{font-size: 0.82rem;color: var(--teal-bright)}.nurva .buybar .btn{margin-left: auto}@media (max-width: 480px){.nurva .buybar__info{display: none}.nurva .buybar .btn{width: 100%}}.nurva [data-reveal]{opacity: 0;transform: translateY(26px);transition: opacity 0.85s var(--ease) var(--reveal-delay,0s),transform 0.85s var(--ease) var(--reveal-delay,0s);will-change: opacity,transform}.nurva [data-reveal="left"]{transform: translateX(-30px)}.nurva [data-reveal="right"]{transform: translateX(30px)}.nurva [data-reveal="scale"]{transform: scale(0.95)}.nurva [data-reveal].is-in{opacity: 1;transform: none}.nurva .reveal-stagger > *{opacity: 0;transform: translateY(24px);transition: opacity 0.75s var(--ease),transform 0.75s var(--ease)}.nurva .reveal-stagger.is-in > *{opacity: 1;transform: none}.nurva .reveal-stagger.is-in > *:nth-child(1){transition-delay: 0.05s}.nurva .reveal-stagger.is-in > *:nth-child(2){transition-delay: 0.14s}.nurva .reveal-stagger.is-in > *:nth-child(3){transition-delay: 0.23s}.nurva .reveal-stagger.is-in > *:nth-child(4){transition-delay: 0.32s}.nurva .reveal-stagger.is-in > *:nth-child(5){transition-delay: 0.41s}.nurva .reveal-stagger.is-in > *:nth-child(6){transition-delay: 0.5s}@media (prefers-reduced-motion: reduce){.nurva{scroll-behavior: auto}.nurva,.nurva *,.nurva *::before,.nurva *::after{animation-duration: 0.001ms !important;animation-iteration-count: 1 !important;transition-duration: 0.001ms !important;scroll-behavior: auto !important}.nurva [data-reveal],.nurva .reveal-stagger > *{opacity: 1 !important;transform: none !important}}
+{% endraw %}</style>
+
+<noscript><style>.nurva [data-reveal],.nurva .reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
+
+<script>
+window.Shopify = window.Shopify || {};
+window.Shopify.moneyFormat = window.Shopify.moneyFormat || "{{ shop.money_format }}";
+window.Shopify.routes = window.Shopify.routes || {};
+window.Shopify.routes.root = window.Shopify.routes.root || "{{ routes.root_url | append: '/' | replace: '//', '/' }}";
+</script>
+
+<script>{% raw %}
+(function () {
+'use strict';
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function ready(fn) {
+if (document.readyState !== 'loading') fn();
+else document.addEventListener('DOMContentLoaded', fn);
+}
+function initReveal(root) {
+var scope = root || document;
+var targets = scope.querySelectorAll('[data-reveal], .reveal-stagger');
+if (!targets.length) return;
+if (reduceMotion || !('IntersectionObserver' in window)) {
+targets.forEach(function (el) { el.classList.add('is-in'); });
+return;
+}
+var observer = new IntersectionObserver(function (entries) {
+entries.forEach(function (entry) {
+if (!entry.isIntersecting) return;
+entry.target.classList.add('is-in');
+observer.unobserve(entry.target);
+});
+}, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+targets.forEach(function (el) {
+var delay = el.getAttribute('data-reveal-delay');
+if (delay) el.style.setProperty('--reveal-delay', delay + 'ms');
+observer.observe(el);
+});
+}
+function initCounters(root) {
+var scope = root || document;
+var nodes = scope.querySelectorAll('[data-count]');
+if (!nodes.length) return;
+function render(el, value) {
+var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+el.textContent =
+(el.getAttribute('data-prefix') || '') +
+value.toFixed(decimals) +
+(el.getAttribute('data-suffix') || '');
+}
+function run(el) {
+var target = parseFloat(el.getAttribute('data-count'));
+if (isNaN(target)) return;
+if (reduceMotion) { render(el, target); return; }
+var duration = parseInt(el.getAttribute('data-duration') || '1600', 10);
+var start = null;
+function frame(now) {
+if (start === null) start = now;
+var p = Math.min((now - start) / duration, 1);
+var eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+render(el, target * eased);
+if (p < 1) requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+}
+if (!('IntersectionObserver' in window)) {
+nodes.forEach(run);
+return;
+}
+var observer = new IntersectionObserver(function (entries) {
+entries.forEach(function (entry) {
+if (!entry.isIntersecting) return;
+run(entry.target);
+observer.unobserve(entry.target);
+});
+}, { threshold: 0.5 });
+nodes.forEach(function (el) {
+render(el, 0);
+observer.observe(el);
+});
+}
+function initAccordion(root) {
+var scope = root || document;
+scope.querySelectorAll('[data-faq]').forEach(function (list) {
+var single = list.getAttribute('data-faq-single') !== 'false';
+list.querySelectorAll('.faq__q').forEach(function (btn) {
+btn.addEventListener('click', function () {
+var item = btn.closest('.faq__item');
+var isOpen = item.getAttribute('data-open') === 'true';
+if (single) {
+list.querySelectorAll('.faq__item').forEach(function (other) {
+other.setAttribute('data-open', 'false');
+var q = other.querySelector('.faq__q');
+if (q) q.setAttribute('aria-expanded', 'false');
+});
+}
+item.setAttribute('data-open', isOpen ? 'false' : 'true');
+btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+});
+});
+});
+}
+function initQty(root) {
+var scope = root || document;
+scope.querySelectorAll('[data-qty]').forEach(function (widget) {
+var input = widget.querySelector('input');
+if (!input) return;
+widget.querySelectorAll('button[data-qty-step]').forEach(function (btn) {
+btn.addEventListener('click', function () {
+var step = parseInt(btn.getAttribute('data-qty-step'), 10) || 1;
+var min = parseInt(input.getAttribute('min') || '1', 10);
+var next = (parseInt(input.value, 10) || min) + step;
+input.value = Math.max(min, next);
+input.dispatchEvent(new Event('change', { bubbles: true }));
+});
+});
+});
+}
+function initGallery(root) {
+var scope = root || document;
+scope.querySelectorAll('[data-gallery]').forEach(function (gallery) {
+var main = gallery.querySelector('[data-gallery-main] img');
+if (!main) return;
+gallery.querySelectorAll('[data-gallery-thumb]').forEach(function (thumb) {
+thumb.addEventListener('click', function () {
+var full = thumb.getAttribute('data-full');
+if (!full) return;
+main.style.opacity = '0';
+setTimeout(function () {
+main.src = full;
+var srcset = thumb.getAttribute('data-srcset');
+if (srcset) main.srcset = srcset;
+main.style.opacity = '1';
+}, 160);
+gallery.querySelectorAll('[data-gallery-thumb]').forEach(function (t) {
+t.setAttribute('aria-current', t === thumb ? 'true' : 'false');
+});
+});
+});
+});
+}
+function initVariants(root) {
+var scope = root || document;
+scope.querySelectorAll('[data-variant-picker]').forEach(function (picker) {
+var form = picker.closest('form') || document.querySelector('[data-product-form]');
+if (!form) return;
+var dataEl = picker.querySelector('[data-variant-json]');
+if (!dataEl) return;
+var variants;
+try { variants = JSON.parse(dataEl.textContent); } catch (e) { return; }
+if (!Array.isArray(variants)) return;
+var idInput = form.querySelector('[data-variant-id]');
+var submit = form.querySelector('[data-add-button]');
+var priceEl = document.querySelector('[data-variant-price]');
+var compareEl = document.querySelector('[data-variant-compare]');
+function selectedOptions() {
+return Array.prototype.map.call(
+picker.querySelectorAll('[data-option-group]'),
+function (group) {
+var checked = group.querySelector('input:checked');
+return checked ? checked.value : null;
+}
+);
+}
+function money(cents) {
+var format = (window.Shopify && window.Shopify.moneyFormat) || '${{amount}}';
+var amount = (cents / 100).toFixed(2);
+return format.replace(/\{\{\s*amount[^}]*\}\}/, amount);
+}
+function update() {
+var chosen = selectedOptions();
+var match = variants.find(function (v) {
+return chosen.every(function (value, i) {
+return value === null || v.options[i] === value;
+});
+});
+if (!match) {
+if (submit) {
+submit.setAttribute('aria-disabled', 'true');
+submit.textContent = submit.getAttribute('data-unavailable-text') || 'Unavailable';
+}
+return;
+}
+if (idInput) idInput.value = match.id;
+if (priceEl) priceEl.textContent = money(match.price);
+if (compareEl) {
+var onSale = match.compare_at_price && match.compare_at_price > match.price;
+compareEl.textContent = onSale ? money(match.compare_at_price) : '';
+compareEl.hidden = !onSale;
+}
+if (submit) {
+submit.setAttribute('aria-disabled', match.available ? 'false' : 'true');
+submit.textContent = match.available
+? (submit.getAttribute('data-add-text') || 'Add to cart')
+: (submit.getAttribute('data-soldout-text') || 'Sold out');
+}
+if (match.id && window.history && window.history.replaceState) {
+var url = new URL(window.location.href);
+url.searchParams.set('variant', match.id);
+window.history.replaceState({}, '', url.toString());
+}
+}
+picker.addEventListener('change', update);
+update();
+});
+}
+function initAddToCart(root) {
+var scope = root || document;
+scope.querySelectorAll('[data-product-form]').forEach(function (form) {
+form.addEventListener('submit', function (e) {
+if (!window.Shopify) return; // outside Shopify, let the form behave normally
+e.preventDefault();
+var button = form.querySelector('[data-add-button]');
+var original = button ? button.textContent : '';
+if (button) {
+button.setAttribute('aria-disabled', 'true');
+button.textContent = 'Adding…';
+}
+var root = (window.Shopify.routes && window.Shopify.routes.root) || '/';
+fetch(root + 'cart/add.js', {
+method: 'POST',
+headers: { 'Accept': 'application/json' },
+body: new FormData(form)
+})
+.then(function (r) { return r.json(); })
+.then(function (data) {
+if (data.status && data.status !== 200) throw new Error(data.description || 'Could not add to cart');
+if (button) button.textContent = 'Added ✓';
+refreshCartCount();
+setTimeout(function () {
+if (button) {
+button.textContent = original;
+button.setAttribute('aria-disabled', 'false');
+}
+}, 1800);
+})
+.catch(function (err) {
+if (button) {
+button.textContent = original;
+button.setAttribute('aria-disabled', 'false');
+}
+var note = form.querySelector('[data-form-error]');
+if (note) { note.textContent = err.message; note.hidden = false; }
+});
+});
+});
+}
+function initBuyBar() {
+var bar = document.querySelector('[data-buybar]');
+var anchor = document.querySelector('[data-buybar-anchor]');
+if (!bar || !anchor || !('IntersectionObserver' in window)) return;
+var observer = new IntersectionObserver(function (entries) {
+entries.forEach(function (entry) {
+bar.classList.toggle('is-visible', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+});
+}, { threshold: 0 });
+observer.observe(anchor);
+}
+function boot(root) {
+initReveal(root);
+initCounters(root);
+initAccordion(root);
+initQty(root);
+initGallery(root);
+initVariants(root);
+initAddToCart(root);
+}
+ready(function () { boot(document); initBuyBar(); });
+document.addEventListener('shopify:section:load', function (e) { boot(e.target); initBuyBar(); });
+})();
+{% endraw %}</script>
+
+<div class="nurva">
+  <section class="section">
+    <div class="wrap wrap--wide">
+      <div class="product">
+
+        <div class="product__gallery" data-gallery data-reveal="left">
+          <div class="product__main-img" data-gallery-main>
+            {%- if product.featured_media -%}
+              {{ product.featured_media | image_url: width: 1400 | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  sizes: '(min-width: 900px) 50vw, 100vw',
+                  widths: '500,700,900,1200,1400',
+                  alt: product.featured_media.alt | default: product.title }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+
+          {%- if product.media.size > 1 -%}
+            <div class="product__thumbs">
+              {%- for media in product.media limit: 10 -%}
+                <button
+                  type="button"
+                  class="product__thumb"
+                  data-gallery-thumb
+                  data-full="{{ media | image_url: width: 1400 }}"
+                  aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-label="View image {{ forloop.index }}">
+                  {{ media | image_url: width: 240 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="product__info stack" data-reveal="right">
+          <span class="eyebrow">Perform | Breathe | Recover</span>
+
+          <h1 class="product__title">{{ product.title }}</h1>
+
+          <div class="product__rating">
+            <span class="stars">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.4l6.5-.9z"/></svg><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.4l6.5-.9z"/></svg>
+            </span>
+            <span>4.8 from 2,400+ reviews</span>
+          </div>
+
+          <div class="product__price-row">
+            <span class="product__price" data-variant-price>{{ current_variant.price | money }}</span>
+            <span class="price__compare" data-variant-compare {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>
+              {%- if current_variant.compare_at_price > current_variant.price -%}
+                {{ current_variant.compare_at_price | money }}
+              {%- endif -%}
+            </span>
+            <span class="muted" style="font-size:.84rem">Free shipping over $35</span>
+          </div>
+
+          <div class="rte muted">{{ product.description }}</div>
+
+          <ul class="ticks stack">
+            <li class="tick">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
+              <div><b>Up to 10 hours of hold</b></div>
+            </li>
+            <li class="tick">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
+              <div><b>Sweat-proof medical-grade adhesive</b></div>
+            </li>
+            <li class="tick">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
+              <div><b>Drug free, latex free, hypoallergenic</b></div>
+            </li>
+            <li class="tick">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
+              <div><b>Works for training and for sleep</b></div>
+            </li>
+          </ul>
+
+          <div data-buybar-anchor>
+            {%- form 'product', product, data-product-form: 'true', id: 'NurvaProductForm' -%}
+              <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+              {%- unless product.has_only_default_variant -%}
+                <div data-variant-picker class="stack" style="--stack:18px;margin-bottom:22px">
+                  {%- for option in product.options_with_values -%}
+                    <div class="opt stack" data-option-group>
+                      <span class="opt__label">{{ option.name }}</span>
+                      <div class="opt__choices">
+                        {%- for value in option.values -%}
+                          <label class="opt__choice">
+                            <input
+                              type="radio"
+                              name="option-nurva-{{ forloop.parentloop.index0 }}"
+                              value="{{ value | escape }}"
+                              {% if option.selected_value == value %}checked{% endif %}>
+                            <span>{{ value }}</span>
+                          </label>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  {%- endfor -%}
+
+                  <script type="application/json" data-variant-json>
+                    {{ product.variants | json }}
+                  </script>
+                </div>
+              {%- endunless -%}
+
+              <div class="buy-row">
+                <div class="qty" data-qty>
+                  <button type="button" data-qty-step="-1" aria-label="Decrease quantity">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                  <input type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+                  <button type="button" data-qty-step="1" aria-label="Increase quantity">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  </button>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn--lg"
+                  data-add-button
+                  data-add-text="Add to cart"
+                  data-soldout-text="Sold out"
+                  data-unavailable-text="Unavailable"
+                  {% unless current_variant.available %}aria-disabled="true"{% endunless %}>
+                  {%- if current_variant.available -%}Add to cart{%- else -%}Sold out{%- endif -%}
+                </button>
+              </div>
+
+              <p class="form-error" data-form-error hidden></p>
+
+              <div style="margin-top:12px">{{ form | payment_button }}</div>
+            {%- endform -%}
+          </div>
+
+          <div class="trust-row">
+            <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l3 3v3h-7"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span>Ships in 1 business day</span></div>
+            <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8-7 9.5-4.1-1.5-7-5.2-7-9.5V6z"/><polyline points="9.2 12 11.4 14.1 15 10.4"/></svg><span>30-night guarantee</span></div>
+            <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4"/><path d="M20 4c0 9-5 13-11 13-1.6 0-3-.4-4-1"/></svg><span>Drug free</span></div>
+          </div>
+
+          <div class="faq" data-faq>
+            <div class="faq__item" data-open="false">
+              <h3><button class="faq__q" type="button" aria-expanded="false"><span>How to apply</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
+              <div class="faq__a"><div><p>Clean and dry the bridge of your nose. Peel the liner, centre the strip just above the flare of your nostrils, press the ends for five seconds. Remove under warm water.</p></div></div>
+            </div>
+            <div class="faq__item" data-open="false">
+              <h3><button class="faq__q" type="button" aria-expanded="false"><span>Shipping &amp; returns</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
+              <div class="faq__a"><div><p>Orders placed before 2pm ship the same business day with tracking. Free shipping over $35. If Nurva doesn't work for you, tell us within 30 nights for a full refund.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="buybar" data-buybar>
+  <div class="buybar__info">
+    <span class="buybar__name">{{ product.title | truncate: 34 }}</span>
+    <span class="buybar__price">{{ current_variant.price | money }}</span>
+  </div>
+  <button class="btn" type="submit" form="NurvaProductForm">Add to cart</button>
+</div>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script><div class="nurva">
+  <section class="section section--raised">
+    <div class="wrap">
+      <div class="sec-head sec-head--center stack" data-reveal>
+        <span class="eyebrow">What you get</span>
+        <h2 class="h2">Four reasons it stays in your gym bag</h2>
+      </div>
+
+      <div class="badges reveal-stagger">
+        <div class="badge-ring">
+          <div class="badge-ring__disc">
+            <span class="badge-ring__value"><span data-count="10"></span></span>
+          </div>
+          <span class="badge-ring__label">Hours of relief</span>
+          <span class="badge-ring__note">One strip holds from warm-up to lights out.</span>
+        </div>
+        <div class="badge-ring">
+          <div class="badge-ring__disc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.4 6 10.4A6 6 0 0 1 6 13.4C6 9.4 12 3 12 3z"/><path d="M9.4 14.2a2.7 2.7 0 0 0 2.6 2.6"/></svg>
+          </div>
+          <span class="badge-ring__label">Sweat proof</span>
+          <span class="badge-ring__note">Medical-grade adhesive that won't peel mid-set.</span>
+        </div>
+        <div class="badge-ring">
+          <div class="badge-ring__disc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="13.4 2 4.5 13.6 11 13.6 10.2 22 19.5 10.2 12.8 10.2"/></svg>
+          </div>
+          <span class="badge-ring__label">Performance boost</span>
+          <span class="badge-ring__note">More airflow means more oxygen where it counts.</span>
+        </div>
+        <div class="badge-ring">
+          <div class="badge-ring__disc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z"/></svg>
+          </div>
+          <span class="badge-ring__label">Snoring relief</span>
+          <span class="badge-ring__note">Quieter nights, deeper recovery, sharper mornings.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><div class="nurva">
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head sec-head--center stack" data-reveal>
+        <span class="eyebrow">Three seconds to apply</span>
+        <h2 class="h2">How Nurva works</h2>
+      </div>
+
+      <div class="steps">
+        <div class="steps__line" aria-hidden="true"></div>
+        <div class="grid grid--4 reveal-stagger">
+          <div class="step stack">
+            <div class="step__disc">1</div>
+            <h3 class="h3">Clean &amp; dry</h3>
+            <p class="muted">Wash and dry the bridge of your nose so the adhesive grips properly.</p>
+          </div>
+          <div class="step stack">
+            <div class="step__disc">2</div>
+            <h3 class="h3">Peel &amp; place</h3>
+            <p class="muted">Remove the liner and centre the strip just above the flare of your nostrils.</p>
+          </div>
+          <div class="step stack">
+            <div class="step__disc">3</div>
+            <h3 class="h3">Press &amp; hold</h3>
+            <p class="muted">Press the ends down for five seconds. The spring bands do the rest.</p>
+          </div>
+          <div class="step stack">
+            <div class="step__disc">4</div>
+            <h3 class="h3">Breathe</h3>
+            <p class="muted">Train, race or sleep. Peel off gently under warm water.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><div class="nurva">
+  <section class="section section--raised">
+    <div class="wrap wrap--wide">
+      <div class="sec-head sec-head--center stack" data-reveal>
+        <span class="eyebrow">Real users</span>
+        <h2 class="h2">Trusted by people who train</h2>
+      </div>
+
+      <div class="quotes" data-reveal>
+        <figure class="quote stack">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="quote__text">First run where I wasn't gasping through my mouth by kilometre three.</blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar">M</span>
+            <span><span class="quote__name">Marcus T.</span><br><span class="quote__meta">Verified buyer</span></span>
+          </figcaption>
+        </figure>
+
+        <figure class="quote stack">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="quote__text">My partner stopped elbowing me at 2am. Worth it for that alone.</blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar">P</span>
+            <span><span class="quote__name">Priya R.</span><br><span class="quote__meta">Verified buyer</span></span>
+          </figcaption>
+        </figure>
+
+        <figure class="quote stack">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="quote__text">Holds twice as long as the drug-store brand and doesn't curl when I sweat.</blockquote>
+          <figcaption class="quote__who">
+            <span class="quote__avatar">D</span>
+            <span><span class="quote__name">Danny K.</span><br><span class="quote__meta">Verified buyer</span></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+</div><div class="nurva">
+  <section class="section">
+    <div class="wrap wrap--narrow">
+      <div class="sec-head sec-head--center stack" data-reveal>
+        <span class="eyebrow">Answers</span>
+        <h2 class="h2">Before you buy</h2>
+      </div>
+
+      <div class="faq" data-faq data-faq-single="true" data-reveal>
+        <div class="faq__item" data-open="false">
+          <h3><button class="faq__q" type="button" aria-expanded="false"><span>Will it stay on while I train?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
+          <div class="faq__a"><div><p>Yes — sweat-resistant medical-grade adhesive rated for up to 10 hours, including humid conditions. Apply to clean, dry skin.</p></div></div>
+        </div>
+
+        <div class="faq__item" data-open="false">
+          <h3><button class="faq__q" type="button" aria-expanded="false"><span>Does it help with snoring?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
+          <div class="faq__a"><div><p>It helps when snoring is driven by nasal congestion or a narrow nasal valve. It is not a treatment for sleep apnoea — speak to a doctor if you suspect that.</p></div></div>
+        </div>
+
+        <div class="faq__item" data-open="false">
+          <h3><button class="faq__q" type="button" aria-expanded="false"><span>Can I reuse a strip?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
+          <div class="faq__a"><div><p>No. Each strip is single use.</p></div></div>
+        </div>
+
+        <div class="faq__item" data-open="false">
+          <h3><button class="faq__q" type="button" aria-expanded="false"><span>What if it doesn't work for me?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
+          <div class="faq__a"><div><p>Tell us within 30 nights and we'll refund you. You don't need to send the pack back.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Nurva product",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
