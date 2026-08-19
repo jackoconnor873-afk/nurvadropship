@@ -3,8 +3,13 @@
   Usage: {% render 'product-card', product: product, tag: 'Best seller' %}
 {%- endcomment -%}
 
+{%- assign has_alt_media = false -%}
+{%- if product.media.size > 1 -%}
+  {%- assign has_alt_media = true -%}
+{%- endif -%}
+
 <a class="card" href="{{ product.url }}">
-  <div class="card__media {% if product.media.size > 1 %}card__media--alt{% endif %}">
+  <div class="card__media {% if has_alt_media %}card__media--alt{% endif %}">
     {%- if product.featured_media -%}
       {{ product.featured_media | image_url: width: 900 | image_tag:
           loading: 'lazy',

@@ -11,6 +11,10 @@
 {%- endcomment -%}
 
 {%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign on_sale = false -%}
+{%- if current_variant.compare_at_price > current_variant.price -%}
+  {%- assign on_sale = true -%}
+{%- endif -%}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -341,8 +345,8 @@ document.addEventListener('shopify:section:load', function (e) { boot(e.target);
 
           <div class="product__price-row">
             <span class="product__price" data-variant-price>{{ current_variant.price | money }}</span>
-            <span class="price__compare" data-variant-compare {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>
-              {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span class="price__compare" data-variant-compare {% unless on_sale %}hidden{% endunless %}>
+              {%- if on_sale -%}
                 {{ current_variant.compare_at_price | money }}
               {%- endif -%}
             </span>

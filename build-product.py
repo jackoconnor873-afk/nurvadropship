@@ -228,8 +228,8 @@ MAIN_PRODUCT = r'''<div class="nurva">
 
           <div class="product__price-row">
             <span class="product__price" data-variant-price>{{ current_variant.price | money }}</span>
-            <span class="price__compare" data-variant-compare {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>
-              {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span class="price__compare" data-variant-compare {% unless on_sale %}hidden{% endunless %}>
+              {%- if on_sale -%}
                 {{ current_variant.compare_at_price | money }}
               {%- endif -%}
             </span>
@@ -574,7 +574,11 @@ section_file = (
     "  Uses the page's own `product` object automatically — nothing to pick.\n"
     "  Styles are scoped under .nurva and cannot affect the rest of your theme.\n"
     "{%- endcomment -%}\n\n"
-    "{%- assign current_variant = product.selected_or_first_available_variant -%}\n\n"
+    "{%- assign current_variant = product.selected_or_first_available_variant -%}\n"
+    "{%- assign on_sale = false -%}\n"
+    "{%- if current_variant.compare_at_price > current_variant.price -%}\n"
+    "  {%- assign on_sale = true -%}\n"
+    "{%- endif -%}\n\n"
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
