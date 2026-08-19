@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-Builds paste/nurva-home.liquid — a clean, focused homepage matching the
-product page's shape and accuracy. Replaces the old 1/3/6-pack bundle tiers
-(which contradicted the real Buy 1 Get 1 Free offer) with a single real
-purchase block, and aligns all shipping/offer copy with the product page.
+Builds paste/nurva-about.liquid — an About page section in the same clean,
+scoped style as build-home-clean.py (hero, split story, badges, a real
+purchase block, FAQ). Meant to be pasted in as a new Shopify Page section
+via a page.about-nurva.json template (or dropped into any page through the
+theme editor), so the store has a story page that looks and behaves like
+the homepage instead of a bare Shopify "page" template.
 
-Overwrites the previous nurva-home.liquid (built by build-paste.py's older
-preview/_body.html-chunk pipeline). This script is self-contained like
-build-product.py / build-collection.py / build-cart.py, so it's the new
-source of truth for the homepage.
+Self-contained like build-product.py / build-collection.py / build-cart.py /
+build-home-clean.py — copies the same helper functions so it has no import
+dependency on those files.
 """
 import re, os, json
 
@@ -140,7 +141,7 @@ def extract_fn(js, name):
         k += 1
     return js[m.start():k]
 
-PASTE_FNS = ['ready', 'initReveal', 'initCounters', 'initAccordion', 'initMarquee', 'initQty']
+PASTE_FNS = ['ready', 'initReveal', 'initCounters', 'initAccordion', 'initQty']
 
 def paste_js(js):
     fns = '\n'.join(extract_fn(js, n) for n in PASTE_FNS)
@@ -152,7 +153,6 @@ def paste_js(js):
         "initReveal(root);\n"
         "initCounters(root);\n"
         "initAccordion(root);\n"
-        "initMarquee(root);\n"
         "initQty(root);\n"
         "}\n"
         "ready(function () { boot(document); });\n"
@@ -162,8 +162,8 @@ def paste_js(js):
 
 # ---------------------------------------------------------------- markup
 
-HERO_AND_MARQUEE = r'''<div class="nurva">
-  <section class="hero">
+ABOUT_HERO = r'''<div class="nurva">
+  <section class="hero" style="min-height:62vh">
     <div class="hero__veil"></div>
     <div class="hero__pulse" aria-hidden="true">
       <span class="hero__ring"></span><span class="hero__ring"></span><span class="hero__ring"></span><span class="hero__ring"></span>
@@ -173,71 +173,80 @@ HERO_AND_MARQUEE = r'''<div class="nurva">
       <div class="hero__content">
         <div class="hero__badge">
           <b>PRO</b>
-          <span>Premium nose strips</span>
+          <span>Our story</span>
         </div>
 
         <h1 class="display hero__title">
-          <span class="hero__line"><span>Breathe better.</span></span>
-          <span class="hero__line"><span>Perform better.</span></span>
-          <span class="hero__line"><span>Live better.</span></span>
+          <span class="hero__line"><span>Built by people</span></span>
+          <span class="hero__line"><span>who couldn't</span></span>
+          <span class="hero__line"><span>breathe right.</span></span>
         </h1>
 
         <p class="lede hero__copy" data-reveal data-reveal-delay="450">
-          Nurva opens your nasal passage wider so more air reaches your lungs — in the gym, on the road
-          and through the night. Sweat-proof. Drug-free. Built to hold for 10 hours.
+          Nurva started with a simple problem: training, sleeping and racing while breathing through
+          a half-closed nose. We set out to build one strip that actually holds &mdash; through sweat,
+          through the night, through everything.
         </p>
 
         <div class="hero__cta" data-reveal data-reveal-delay="600">
           <a class="btn btn--lg" href="#nurva-buy">
-            Buy 1, Get 1 Free
+            Shop Nurva
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
           </a>
-          <a class="btn btn--lg btn--ghost" href="#nurva-how">How it works</a>
-        </div>
-
-        <div class="hero__proof" data-reveal data-reveal-delay="750">
-          <div class="hero__proof-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 6.6 12 12 16 14.2"/></svg>
-            <span>Holds 10 hours</span>
-          </div>
-          <div class="hero__proof-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.4 6 10.4A6 6 0 0 1 6 13.4C6 9.4 12 3 12 3z"/></svg>
-            <span>Sweat proof</span>
-          </div>
-          <div class="hero__proof-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l3 3v3h-7"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>
-            <span>Ships via An Post</span>
-          </div>
-          <div class="hero__proof-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z"/></svg>
-            <span>Snore relief</span>
-          </div>
+          <a class="btn btn--lg btn--ghost" href="#nurva-mission">Our mission</a>
         </div>
       </div>
     </div>
 
     <div class="hero__scroll" aria-hidden="true"><i></i><span>Scroll</span></div>
   </section>
-
-  <div class="marquee" style="--marquee-speed:32s">
-    <div class="marquee__track" data-marquee>
-      <div class="marquee__group">
-        <span class="marquee__item">BUY 1 GET 1 FREE<span class="marquee__dot"></span></span>
-        <span class="marquee__item">SHIPS VIA AN POST<span class="marquee__dot"></span></span>
-        <span class="marquee__item">DRUG FREE<span class="marquee__dot"></span></span>
-        <span class="marquee__item">BREATHE PURE<span class="marquee__dot"></span></span>
-        <span class="marquee__item">LIVE PURE<span class="marquee__dot"></span></span>
-      </div>
-    </div>
-  </div>
 </div>'''
 
-BADGES_AND_SCIENCE = r'''<div class="nurva">
+MISSION_SPLIT = r'''<div class="nurva">
+  <section class="section" id="nurva-mission">
+    <div class="wrap">
+      <div class="split">
+        <div class="split__media" data-reveal="left">
+          <div class="split__placeholder">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M12 8.5c-1.6-.6-2.8 0-3.3 1.3L6.2 16c-.7 1.9.4 3.8 2.3 4.1 1.5.2 2.6-.7 2.8-2.2l.7-4.6"/><path d="M12 8.5c1.6-.6 2.8 0 3.3 1.3L17.8 16c.7 1.9-.4 3.8-2.3 4.1-1.5.2-2.6-.7-2.8-2.2l-.7-4.6"/></svg>
+            <span>Add your brand image</span>
+          </div>
+        </div>
+
+        <div class="split__body stack" data-reveal="right">
+          <span class="eyebrow">Why we started</span>
+          <h2 class="h2">Breathing shouldn't be the bottleneck</h2>
+          <p class="lede">
+            Most nasal strips are an afterthought &mdash; flat, single-band, and gone by the second
+            quarter or the third hour of sleep. We rebuilt the strip from the adhesive up: dual spring
+            bands, a contour cut for the nasal valve, and a hold that survives sweat, movement and side
+            sleeping.
+          </p>
+
+          <ul class="ticks stack">
+            <li class="tick">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
+              <div><b>Designed for athletes first</b><p>Tested through training blocks, race days and recovery nights, not just a lab bench.</p></div>
+            </li>
+            <li class="tick">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
+              <div><b>No drugs, no sprays</b><p>Just mechanical lift on the nasal valve &mdash; nothing to absorb, nothing habit forming.</p></div>
+            </li>
+            <li class="tick">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
+              <div><b>Shipped from Ireland</b><p>Every order goes out via An Post and typically arrives in 5&ndash;7 business days.</p></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section section--raised">
     <div class="wrap">
       <div class="sec-head sec-head--center stack" data-reveal>
-        <span class="eyebrow">Perform | Breathe | Recover</span>
-        <h2 class="h2">Built for every hour you're awake — and every one you're not</h2>
+        <span class="eyebrow">What matters to us</span>
+        <h2 class="h2">Perform | Breathe | Recover</h2>
       </div>
 
       <div class="badges reveal-stagger">
@@ -246,7 +255,7 @@ BADGES_AND_SCIENCE = r'''<div class="nurva">
             <span class="badge-ring__value"><span data-count="10"></span></span>
           </div>
           <span class="badge-ring__label">Hours of relief</span>
-          <span class="badge-ring__note">One strip holds from warm-up to lights out.</span>
+          <span class="badge-ring__note">One strip, from warm-up to lights out.</span>
         </div>
         <div class="badge-ring">
           <div class="badge-ring__disc">
@@ -272,114 +281,10 @@ BADGES_AND_SCIENCE = r'''<div class="nurva">
       </div>
     </div>
   </section>
-
-  <section class="section" id="nurva-science">
-    <div class="wrap">
-      <div class="split">
-        <div class="split__media" data-reveal="left">
-          <div class="split__placeholder">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9"/><path d="M12 8.5c-1.6-.6-2.8 0-3.3 1.3L6.2 16c-.7 1.9.4 3.8 2.3 4.1 1.5.2 2.6-.7 2.8-2.2l.7-4.6"/><path d="M12 8.5c1.6-.6 2.8 0 3.3 1.3L17.8 16c.7 1.9-.4 3.8-2.3 4.1-1.5.2-2.6-.7-2.8-2.2l-.7-4.6"/></svg>
-            <span>Add your product image</span>
-          </div>
-        </div>
-
-        <div class="split__body stack" data-reveal="right">
-          <span class="eyebrow">The science</span>
-          <h2 class="h2">Your nose is the bottleneck</h2>
-          <p class="lede">
-            Most of your airway resistance sits in the narrowest part of the nasal valve. Nurva's dual
-            spring bands lift that valve open from the outside — no drugs, no sprays, nothing habit
-            forming. Just a bigger pipe for the air you already breathe.
-          </p>
-
-          <ul class="ticks stack">
-            <li class="tick">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
-              <div><b>Dual-band spring tension</b><p>Two flex bands instead of one, so the lift holds through sweat, movement and side sleeping.</p></div>
-            </li>
-            <li class="tick">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
-              <div><b>Hypoallergenic adhesive</b><p>Latex-free, skin-safe and gentle on removal — even on sensitive skin.</p></div>
-            </li>
-            <li class="tick">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="16 9.5 10.8 15 8 12.4"/></svg>
-              <div><b>Contour-cut for the nasal valve</b><p>Shaped to sit exactly where resistance is highest, not just across the bridge.</p></div>
-            </li>
-          </ul>
-
-          <div>
-            <a class="btn" href="#nurva-buy">Get yours
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 </div>'''
 
-STATS_AND_HOW = r'''<div class="nurva">
-  <section class="section section--tight section--raised">
-    <div class="wrap">
-      <div class="sec-head sec-head--center stack" data-reveal>
-        <span class="eyebrow">The numbers</span>
-        <h2 class="h2">Small strip. Measurable difference.</h2>
-      </div>
-
-      <div class="stats" data-reveal="scale">
-        <div class="stat"><div class="stat__value"><span data-count="38" data-suffix="%"></span></div><div class="stat__label">More nasal airflow</div></div>
-        <div class="stat"><div class="stat__value"><span data-count="10" data-suffix="hr"></span></div><div class="stat__label">Hold time per strip</div></div>
-        <div class="stat"><div class="stat__value"><span data-count="4.8" data-decimals="1" data-suffix="/5"></span></div><div class="stat__label">Average rating</div></div>
-        <div class="stat"><div class="stat__value"><span data-count="2400" data-suffix="+"></span></div><div class="stat__label">Athletes breathing better</div></div>
-      </div>
-
-      <p class="center muted" style="margin-top:22px;font-size:.78rem">
-        Figures reflect Nurva customer survey data and published research on external nasal dilators. Individual results vary.
-      </p>
-    </div>
-  </section>
-
-  <section class="section" id="nurva-how">
-    <div class="wrap">
-      <div class="sec-head sec-head--center stack" data-reveal>
-        <span class="eyebrow">Three seconds to apply</span>
-        <h2 class="h2">How Nurva works</h2>
-        <p class="lede">No batteries, no refills, no learning curve. Peel, place, breathe.</p>
-      </div>
-
-      <div class="steps">
-        <div class="steps__line" aria-hidden="true"></div>
-        <div class="grid grid--4 reveal-stagger">
-          <div class="step stack">
-            <div class="step__disc">1</div>
-            <h3 class="h3">Clean &amp; dry</h3>
-            <p class="muted">Wash and dry the bridge of your nose so the adhesive grips properly.</p>
-          </div>
-          <div class="step stack">
-            <div class="step__disc">2</div>
-            <h3 class="h3">Peel &amp; place</h3>
-            <p class="muted">Remove the liner and centre the strip just above the flare of your nostrils.</p>
-          </div>
-          <div class="step stack">
-            <div class="step__disc">3</div>
-            <h3 class="h3">Press &amp; hold</h3>
-            <p class="muted">Press the ends down for five seconds. The spring bands do the rest.</p>
-          </div>
-          <div class="step stack">
-            <div class="step__disc">4</div>
-            <h3 class="h3">Breathe</h3>
-            <p class="muted">Train, race or sleep. Peel off gently under warm water when you're done.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>'''
-
-# Single real purchase block — replaces the old 1/3/6-pack bundle tiers.
-# Uses a product picker (section.settings.product) exactly like the product
-# page uses Shopify's own global `product`, since the homepage has no
-# product of its own until one is chosen in the theme editor.
+# Same real purchase block pattern as the homepage — a product picker, since
+# an About page has no page-level product of its own.
 BUY_BLOCK = r'''<div class="nurva">
   <section class="section section--raised" id="nurva-buy">
     <div class="wrap wrap--narrow">
@@ -419,7 +324,7 @@ BUY_BLOCK = r'''<div class="nurva">
 
             <div class="rte muted">{{ bp.description | strip_html | truncate: 160 }}</div>
 
-            {%- form 'product', bp, data-product-form: 'true', id: 'NurvaHomeBuyForm' -%}
+            {%- form 'product', bp, data-product-form: 'true', id: 'NurvaAboutBuyForm' -%}
               <input type="hidden" name="id" value="{{ bpv.id }}">
 
               <div class="buy-row">
@@ -444,7 +349,7 @@ BUY_BLOCK = r'''<div class="nurva">
                 </button>
               </div>
 
-              <p class="muted" style="font-size:.82rem">Add 2 to your cart — the discount for your free strip is applied automatically at checkout.</p>
+              <p class="muted" style="font-size:.82rem">Add 2 to your cart &mdash; the discount for your free strip is applied automatically at checkout.</p>
               <p class="form-error" data-form-error hidden></p>
             {%- endform -%}
 
@@ -465,46 +370,8 @@ BUY_BLOCK = r'''<div class="nurva">
   </section>
 </div>'''
 
-REVIEWS_AND_FAQ = r'''<div class="nurva">
+ABOUT_FAQ = r'''<div class="nurva">
   <section class="section">
-    <div class="wrap wrap--wide">
-      <div class="sec-head sec-head--center stack" data-reveal>
-        <span class="eyebrow">Real users</span>
-        <h2 class="h2">What happens when you stop fighting for air</h2>
-      </div>
-
-      <div class="quotes" data-reveal>
-        <figure class="quote stack">
-          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <blockquote class="quote__text">First run where I wasn't gasping through my mouth by kilometre three.</blockquote>
-          <figcaption class="quote__who">
-            <span class="quote__avatar">M</span>
-            <span><span class="quote__name">Marcus T.</span><br><span class="quote__meta">Verified buyer</span></span>
-          </figcaption>
-        </figure>
-
-        <figure class="quote stack">
-          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <blockquote class="quote__text">My partner stopped elbowing me at 2am. Worth it for that alone.</blockquote>
-          <figcaption class="quote__who">
-            <span class="quote__avatar">P</span>
-            <span><span class="quote__name">Priya R.</span><br><span class="quote__meta">Verified buyer</span></span>
-          </figcaption>
-        </figure>
-
-        <figure class="quote stack">
-          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <blockquote class="quote__text">Holds twice as long as the drug-store brand and doesn't curl when I sweat.</blockquote>
-          <figcaption class="quote__who">
-            <span class="quote__avatar">D</span>
-            <span><span class="quote__name">Danny K.</span><br><span class="quote__meta">Verified buyer</span></span>
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--raised">
     <div class="wrap wrap--narrow">
       <div class="sec-head sec-head--center stack" data-reveal>
         <span class="eyebrow">Answers</span>
@@ -513,30 +380,25 @@ REVIEWS_AND_FAQ = r'''<div class="nurva">
 
       <div class="faq" data-faq data-faq-single="true" data-reveal>
         <div class="faq__item" data-open="false">
-          <h3><button class="faq__q" type="button" aria-expanded="false"><span>Will it stay on while I train?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
-          <div class="faq__a"><div><p>Yes &mdash; sweat-resistant medical-grade adhesive rated for up to 10 hours, including humid conditions. Apply to clean, dry skin.</p></div></div>
+          <h3><button class="faq__q" type="button" aria-expanded="false"><span>Who is Nurva for?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
+          <div class="faq__a"><div><p>Anyone who wants to breathe easier &mdash; runners, lifters, snorers, and anyone training or sleeping through a blocked nose.</p></div></div>
+        </div>
+
+        <div class="faq__item" data-open="false">
+          <h3><button class="faq__q" type="button" aria-expanded="false"><span>Where do you ship from?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
+          <div class="faq__a"><div><p>Every order ships via An Post and typically arrives in 5&ndash;7 business days.</p></div></div>
         </div>
 
         <div class="faq__item" data-open="false">
           <h3><button class="faq__q" type="button" aria-expanded="false"><span>How does Buy 1, Get 1 Free work?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
-          <div class="faq__a"><div><p>Add 2 to your cart and the discount for your second strip is applied automatically at checkout &mdash; no code needed.</p></div></div>
-        </div>
-
-        <div class="faq__item" data-open="false">
-          <h3><button class="faq__q" type="button" aria-expanded="false"><span>How long does shipping take?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
-          <div class="faq__a"><div><p>Orders ship via An Post and typically arrive within 5&ndash;7 business days.</p></div></div>
-        </div>
-
-        <div class="faq__item" data-open="false">
-          <h3><button class="faq__q" type="button" aria-expanded="false"><span>Is it drug-free?</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
-          <div class="faq__a"><div><p>Yes. No sprays, no medication &mdash; just spring bands that lift the nasal valve open from the outside.</p></div></div>
+          <div class="faq__a"><div><p>Add 2 to your cart and the discount for your free strip is applied automatically at checkout &mdash; no code needed.</p></div></div>
         </div>
       </div>
     </div>
   </section>
 </div>'''
 
-ALL_MARKUP = HERO_AND_MARQUEE + BADGES_AND_SCIENCE + STATS_AND_HOW + BUY_BLOCK + REVIEWS_AND_FAQ
+ALL_MARKUP = ABOUT_HERO + MISSION_SPLIT + BUY_BLOCK + ABOUT_FAQ
 
 # ---------------------------------------------------------------- CSS pruning
 
@@ -585,27 +447,33 @@ js = paste_js(trim_js(read('assets/nurva.js')))
 # ---------------------------------------------------------------- assemble
 
 section_schema = json.dumps({
-    "name": "Nurva home",
+    "name": "Nurva about",
     "tag": "section",
     "settings": [
         {"type": "header", "content": "Your product"},
         {"type": "product", "id": "product", "label": "Product",
-         "info": "Pick your nasal strips product. Price, image and Add to cart all come from it."}
+         "info": "Pick your nasal strips product for the buy block on this page."}
     ],
-    "presets": [{"name": "Nurva home"}]
+    "presets": [{"name": "Nurva about"}]
 }, indent=2)
 
 section_file = (
     "{%- comment -%}\n"
-    "  NURVA PERFORMANCE — clean home page section.\n"
+    "  NURVA PERFORMANCE — About page section.\n"
     "\n"
     "  Online Store -> Themes -> Edit code -> Sections -> Add a new section,\n"
-    "  name it  nurva-home  (Shopify adds the .liquid), paste this in, Save.\n"
-    "  Then Customize -> Add section -> Nurva home, and pick your product there.\n"
+    "  name it  nurva-about  (Shopify adds the .liquid), paste this in, Save.\n"
     "\n"
-    "  One real purchase block (Buy 1 Get 1 Free) instead of 1/3/6-pack pricing\n"
-    "  tiers, so the homepage matches your actual offer and the product page.\n"
-    "  Styles are scoped under .nurva and cannot affect the rest of your theme.\n"
+    "  Then either:\n"
+    "  A) Online Store -> Pages -> Add page, name it About, set its theme\n"
+    "     template to a new one (e.g. page.about), and add this section to it\n"
+    "     in Customize -> pick the About page -> Add section -> Nurva about.\n"
+    "  B) Or just add it to any existing page/template the same way.\n"
+    "  Pick your product in the section settings once added.\n"
+    "\n"
+    "  Same look and behaviour as the homepage: hero, story split, values,\n"
+    "  a real Buy 1 Get 1 Free purchase block, and FAQ. Styles are scoped\n"
+    "  under .nurva and cannot affect the rest of your theme.\n"
     "{%- endcomment -%}\n\n"
     "{%- assign bp = section.settings.product -%}\n"
     "{%- assign bpv = bp.selected_or_first_available_variant -%}\n\n"
@@ -621,7 +489,7 @@ section_file = (
     + "{% schema %}\n" + section_schema + "\n{% endschema %}\n"
 )
 
-out_path = os.path.join(ROOT, 'paste', 'nurva-home.liquid')
+out_path = os.path.join(ROOT, 'paste', 'nurva-about.liquid')
 open(out_path, 'w', encoding='utf-8').write(section_file)
 print('css: full %d -> lean %d chars' % (len(full_css), len(lean_css)))
-print('paste/nurva-home.liquid: %d chars' % len(section_file))
+print('paste/nurva-about.liquid: %d chars' % len(section_file))
