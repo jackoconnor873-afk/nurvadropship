@@ -266,6 +266,8 @@
             main.src = full;
             var srcset = thumb.getAttribute('data-srcset');
             if (srcset) main.srcset = srcset;
+            else main.removeAttribute('srcset'); // otherwise the browser keeps honouring the old srcset over the new src
+            main.removeAttribute('sizes');
             main.style.opacity = '1';
           }, 160);
           gallery.querySelectorAll('[data-gallery-thumb]').forEach(function (t) {

@@ -217,6 +217,11 @@ MAIN_PRODUCT = r'''<div class="nurva">
         <div class="product__info stack" data-reveal="right">
           <span class="eyebrow">Perform | Breathe | Recover</span>
 
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:var(--teal);color:#fff;font-family:var(--font-brand);font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+            <span>Buy 1, Get 1 Free</span>
+          </div>
+
           <h1 class="product__title">{{ product.title }}</h1>
 
           <div class="product__rating">
@@ -233,7 +238,7 @@ MAIN_PRODUCT = r'''<div class="nurva">
                 {{ current_variant.compare_at_price | money }}
               {%- endif -%}
             </span>
-            <span class="muted" style="font-size:.84rem">Free shipping over $35</span>
+            <span class="muted" style="font-size:.84rem">Ships in 5&ndash;7 business days</span>
           </div>
 
           <div class="rte muted">{{ product.description }}</div>
@@ -292,7 +297,7 @@ MAIN_PRODUCT = r'''<div class="nurva">
                   <button type="button" data-qty-step="-1" aria-label="Decrease quantity">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                   </button>
-                  <input type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+                  <input type="number" name="quantity" value="2" min="1" aria-label="Quantity">
                   <button type="button" data-qty-step="1" aria-label="Increase quantity">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                   </button>
@@ -310,6 +315,8 @@ MAIN_PRODUCT = r'''<div class="nurva">
                 </button>
               </div>
 
+              <p class="muted" style="font-size:.82rem">Add 2 to your cart — the discount for your free strip is applied automatically at checkout.</p>
+
               <p class="form-error" data-form-error hidden></p>
 
               <div style="margin-top:12px">{{ form | payment_button }}</div>
@@ -317,7 +324,7 @@ MAIN_PRODUCT = r'''<div class="nurva">
           </div>
 
           <div class="trust-row">
-            <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l3 3v3h-7"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span>Ships in 1 business day</span></div>
+            <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l3 3v3h-7"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span>Delivered via An Post</span></div>
             <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8-7 9.5-4.1-1.5-7-5.2-7-9.5V6z"/><polyline points="9.2 12 11.4 14.1 15 10.4"/></svg><span>30-night guarantee</span></div>
             <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4"/><path d="M20 4c0 9-5 13-11 13-1.6 0-3-.4-4-1"/></svg><span>Drug free</span></div>
           </div>
@@ -329,7 +336,7 @@ MAIN_PRODUCT = r'''<div class="nurva">
             </div>
             <div class="faq__item" data-open="false">
               <h3><button class="faq__q" type="button" aria-expanded="false"><span>Shipping &amp; returns</span><span class="faq__sign" aria-hidden="true"></span></button></h3>
-              <div class="faq__a"><div><p>Orders placed before 2pm ship the same business day with tracking. Free shipping over $35. If Nurva doesn't work for you, tell us within 30 nights for a full refund.</p></div></div>
+              <div class="faq__a"><div><p>Orders ship via An Post and arrive in 5&ndash;7 business days. If Nurva doesn't work for you, tell us within 30 nights for a full refund.</p></div></div>
             </div>
           </div>
         </div>
