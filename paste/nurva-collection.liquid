@@ -1,0 +1,240 @@
+{%- comment -%}
+  NURVA PERFORMANCE — collection (shop) page section.
+
+  Online Store -> Themes -> Edit code -> Sections -> Add a new section,
+  name it  nurva-collection  (Shopify adds the .liquid), paste this in, Save.
+  Then open your COLLECTION template (Edit code -> Templates -> collection.json,
+  or Customize -> browse to any collection -> Add section) and add Nurva collection.
+
+  Uses the page's own `collection` object automatically — nothing to pick.
+  Card badges show 'Buy 1 Get 1 Free' on any product with a compare-at price
+  set above its price — set that on a product in Shopify to flag it.
+  Styles are scoped under .nurva and cannot affect the rest of your theme.
+{%- endcomment -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap">
+
+<style>{% raw %}
+.nurva h1,.nurva h2,.nurva h3,.nurva h4,.nurva h5,.nurva h6,.nurva p,.nurva div,.nurva span,.nurva a,.nurva ul,.nurva ol,.nurva li,.nurva blockquote,.nurva figure,.nurva figcaption,.nurva section,.nurva form,.nurva table,.nurva thead,.nurva tbody,.nurva tr,.nurva th,.nurva td,.nurva label,.nurva input,.nurva button,.nurva b,.nurva i,.nurva em,.nurva strong,.nurva svg{color:inherit;background-color:transparent;background-image:none;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;text-decoration:none;text-align:inherit;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;list-style:none}.nurva{--ink: #05070a;--ink-2: #0a0e13;--surface: #0d1319;--surface-2: #131b23;--line: rgba(255,255,255,0.09);--line-strong: rgba(255,255,255,0.18);--teal: #14a5b8;--teal-bright: #3bddef;--teal-deep: #0c7280;--teal-soft: rgba(20,165,184,0.14);--text: #f4f7f9;--text-muted: #93a2ad;--text-dim: #64727d;--paper: #ffffff;--paper-ink: #05070a;--font-display: "Barlow Condensed","Oswald","Arial Narrow",sans-serif;--font-brand: "Montserrat","Helvetica Neue",Arial,sans-serif;--font-body: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--page: 1280px;--page-wide: 1560px;--gutter: clamp(20px,5vw,64px);--section-y: clamp(64px,9vw,132px);--ease: cubic-bezier(0.22,1,0.36,1);--ease-in-out: cubic-bezier(0.65,0,0.35,1);--dur: 0.55s;--radius: 4px;--radius-lg: 14px;--radius-pill: 999px;--shadow-glow: 0 0 0 1px rgba(59,221,239,0.28),0 18px 60px -24px rgba(20,165,184,0.65)}.nurva,.nurva *,.nurva *::before,.nurva *::after{box-sizing: border-box}.nurva{-webkit-text-size-adjust: 100%;scroll-behavior: smooth;scroll-padding-top: 96px}.nurva{margin: 0;background: var(--ink);color: var(--text);font-family: var(--font-body);font-size: 16px;line-height: 1.65;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;overflow-x: hidden}.nurva img,.nurva svg,.nurva video{display: block;max-width: 100%;height: auto}.nurva button,.nurva input,.nurva select,.nurva textarea{font: inherit;color: inherit}.nurva button{cursor: pointer;background: none;border: 0;padding: 0}.nurva a{color: inherit;text-decoration: none}.nurva h1,.nurva h2,.nurva h3,.nurva h4,.nurva h5,.nurva h6,.nurva p,.nurva figure,.nurva ul,.nurva ol{margin: 0}.nurva ul,.nurva ol{padding: 0;list-style: none}.nurva table{border-collapse: collapse;width: 100%}.nurva ::selection{background: var(--teal);color: #fff}.nurva :focus-visible{outline: 2px solid var(--teal-bright);outline-offset: 3px;border-radius: 2px}.nurva .wrap{width: 100%;max-width: var(--page);margin-inline: auto;padding-inline: var(--gutter)}.nurva .wrap--wide{max-width: var(--page-wide)}.nurva .section{padding-block: var(--section-y);position: relative}.nurva .section--tight{padding-block: clamp(44px,6vw,80px)}.nurva .section--raised{background: var(--ink-2)}.nurva .grid{display: grid;gap: clamp(20px,3vw,34px)}.nurva .grid--4{grid-template-columns: repeat(4,minmax(0,1fr))}@media (max-width: 989px){.nurva .grid--4{grid-template-columns: repeat(2,minmax(0,1fr))}}@media (max-width: 749px){.nurva .grid--2,.nurva .grid--3,.nurva .grid--4{grid-template-columns: minmax(0,1fr)}}.nurva .stack > * + *{margin-top: var(--stack,18px)}.nurva .display,.nurva .h1,.nurva .h2,.nurva .h3{font-family: var(--font-display);font-weight: 800;text-transform: uppercase;line-height: 0.92;letter-spacing: -0.005em;margin: 0}.nurva .h1{font-size: clamp(2.6rem,6.4vw,5.2rem)}.nurva .h3{font-size: clamp(1.35rem,2.2vw,1.9rem);line-height: 1.05}.nurva .eyebrow{font-family: var(--font-brand);font-size: 0.72rem;font-weight: 700;letter-spacing: 0.28em;text-transform: uppercase;color: var(--teal-bright);display: block}.nurva .lede{font-size: clamp(1.02rem,1.35vw,1.2rem);color: var(--text-muted);max-width: 58ch;line-height: 1.7}.nurva .muted{color: var(--text-muted)}.nurva .rte{--stack: 1em}.nurva .rte h2,.nurva .rte h3{font-family: var(--font-display);text-transform: uppercase;margin-top: 1.4em}.nurva .rte a{color: var(--teal-bright);text-decoration: underline;text-underline-offset: 3px}.nurva .rte ul{list-style: disc;padding-left: 1.2em}.nurva .rte ol{list-style: decimal;padding-left: 1.2em}.nurva .rte li + li{margin-top: 0.4em}.nurva .rte img{border-radius: var(--radius-lg);margin-block: 1.4em}.nurva .btn{--btn-bg: var(--teal);--btn-fg: #ffffff;position: relative;display: inline-flex;align-items: center;justify-content: center;gap: 10px;padding: 17px 34px;font-family: var(--font-brand);font-weight: 700;font-size: 0.82rem;letter-spacing: 0.14em;text-transform: uppercase;background: var(--btn-bg);color: var(--btn-fg);border-radius: var(--radius-pill);border: 1px solid transparent;overflow: hidden;isolation: isolate;transition: transform 0.35s var(--ease),box-shadow 0.35s var(--ease),color 0.35s var(--ease),border-color 0.35s var(--ease)}.nurva .btn::after{content: "";position: absolute;inset: 0;z-index: -1;background: linear-gradient(100deg,var(--teal-bright),var(--teal));transform: translateY(101%);transition: transform 0.45s var(--ease)}.nurva .btn:hover,.nurva .btn:focus-visible{transform: translateY(-2px);box-shadow: 0 16px 40px -18px rgba(20,165,184,0.9)}.nurva .btn:hover::after,.nurva .btn:focus-visible::after{transform: translateY(0)}.nurva .btn:active{transform: translateY(0)}.nurva .btn[disabled],.nurva .btn[aria-disabled="true"]{opacity: 0.45;pointer-events: none}@keyframes heroDrift{from{transform: scale(1.04) translate3d(0,0,0)}to{transform: scale(1.12) translate3d(-1.5%,-1.5%,0)}}@keyframes breathe{0%{transform: scale(0.42);opacity: 0}22%{opacity: 0.85}100%{transform: scale(1.12);opacity: 0}}@keyframes heroRise{to{transform: translateY(0)}}@keyframes scrollHint{0%,100%{transform: scaleY(0.3);transform-origin: top;opacity: 0.4}50%{transform: scaleY(1);transform-origin: top;opacity: 1}}.nurva .marquee{position: relative;overflow: hidden;padding-block: 16px;background: var(--teal);color: #fff;border-block: 1px solid rgba(255,255,255,0.14)}.nurva .marquee__track{display: flex;width: max-content;animation: marquee var(--marquee-speed,34s) linear infinite}.nurva .marquee:hover .marquee__track{animation-play-state: paused}.nurva .marquee__group{display: flex;align-items: center;gap: 44px;padding-right: 44px;flex: none}.nurva .marquee__item{display: flex;align-items: center;gap: 14px;font-family: var(--font-display);font-size: clamp(1.1rem,2vw,1.6rem);font-weight: 800;letter-spacing: 0.08em;text-transform: uppercase;white-space: nowrap}.nurva .marquee__dot{width: 7px;height: 7px;border-radius: 50%;background: currentColor;opacity: 0.6;flex: none}@keyframes marquee{to{transform: translateX(-50%)}}.nurva .sec-head{max-width: 760px;--stack: 18px}.nurva .sec-head--center{margin-inline: auto;text-align: center}.nurva .sec-head--center .lede{margin-inline: auto}.nurva .sec-head + *{margin-top: clamp(38px,5vw,66px)}.nurva .card{position: relative;display: flex;flex-direction: column;gap: 14px}.nurva .card__media{position: relative;border-radius: var(--radius-lg);overflow: hidden;background: var(--surface);aspect-ratio: 1}.nurva .card__media img{width: 100%;height: 100%;object-fit: cover;transition: transform 0.9s var(--ease),opacity 0.4s var(--ease)}.nurva .card:hover .card__media img{transform: scale(1.06)}.nurva .card__tag{position: absolute;top: 14px;left: 14px;padding: 6px 12px;border-radius: var(--radius-pill);background: var(--teal);color: #fff;font-family: var(--font-brand);font-size: 0.6rem;font-weight: 700;letter-spacing: 0.16em;text-transform: uppercase}.nurva .card__title{font-family: var(--font-brand);font-weight: 700;font-size: 1rem}.nurva .card__price{display: flex;gap: 10px;align-items: baseline;font-family: var(--font-brand);font-size: 0.95rem}.nurva .card__price s{color: var(--text-dim);font-size: 0.85rem}.nurva .trust-row{display: grid;grid-template-columns: repeat(3,minmax(0,1fr));gap: 14px;padding-top: 22px;border-top: 1px solid var(--line)}@media (max-width: 599px){.nurva .trust-row{grid-template-columns: repeat(1,minmax(0,1fr))}}.nurva .trust-row div{display: flex;align-items: center;gap: 10px;font-size: 0.8rem;color: var(--text-muted)}.nurva .trust-row svg{flex: none;color: var(--teal-bright)}.nurva [data-reveal]{opacity: 0;transform: translateY(26px);transition: opacity 0.85s var(--ease) var(--reveal-delay,0s),transform 0.85s var(--ease) var(--reveal-delay,0s);will-change: opacity,transform}.nurva [data-reveal="left"]{transform: translateX(-30px)}.nurva [data-reveal="right"]{transform: translateX(30px)}.nurva [data-reveal="scale"]{transform: scale(0.95)}.nurva [data-reveal].is-in{opacity: 1;transform: none}.nurva .reveal-stagger > *{opacity: 0;transform: translateY(24px);transition: opacity 0.75s var(--ease),transform 0.75s var(--ease)}.nurva .reveal-stagger.is-in > *{opacity: 1;transform: none}.nurva .reveal-stagger.is-in > *:nth-child(1){transition-delay: 0.05s}.nurva .reveal-stagger.is-in > *:nth-child(2){transition-delay: 0.14s}.nurva .reveal-stagger.is-in > *:nth-child(3){transition-delay: 0.23s}.nurva .reveal-stagger.is-in > *:nth-child(4){transition-delay: 0.32s}.nurva .reveal-stagger.is-in > *:nth-child(5){transition-delay: 0.41s}.nurva .reveal-stagger.is-in > *:nth-child(6){transition-delay: 0.5s}.nurva .empty-state{text-align: center;padding-block: clamp(50px,9vw,110px);--stack: 20px}.nurva .pagination{display: flex;justify-content: center;gap: 8px;margin-top: 50px}.nurva .pagination a,.nurva .pagination span{display: grid;place-items: center;min-width: 42px;height: 42px;padding-inline: 12px;border-radius: var(--radius-pill);border: 1px solid var(--line);font-family: var(--font-brand);font-size: 0.85rem;transition: border-color 0.3s var(--ease),background 0.3s var(--ease)}.nurva .pagination a:hover{border-color: var(--teal)}.nurva .pagination [aria-current="page"]{background: var(--teal);border-color: var(--teal);color: #fff}@media (prefers-reduced-motion: reduce){.nurva{scroll-behavior: auto}.nurva,.nurva *,.nurva *::before,.nurva *::after{animation-duration: 0.001ms !important;animation-iteration-count: 1 !important;transition-duration: 0.001ms !important;scroll-behavior: auto !important}.nurva [data-reveal],.nurva .reveal-stagger > *{opacity: 1 !important;transform: none !important}.nurva .marquee__track{animation: none}}
+{% endraw %}</style>
+
+<noscript><style>.nurva [data-reveal],.nurva .reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
+
+<script>{% raw %}
+(function () {
+'use strict';
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function ready(fn) {
+if (document.readyState !== 'loading') fn();
+else document.addEventListener('DOMContentLoaded', fn);
+}
+function initReveal(root) {
+var scope = root || document;
+var targets = scope.querySelectorAll('[data-reveal], .reveal-stagger');
+if (!targets.length) return;
+if (reduceMotion || !('IntersectionObserver' in window)) {
+targets.forEach(function (el) { el.classList.add('is-in'); });
+return;
+}
+var observer = new IntersectionObserver(function (entries) {
+entries.forEach(function (entry) {
+if (!entry.isIntersecting) return;
+entry.target.classList.add('is-in');
+observer.unobserve(entry.target);
+});
+}, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+targets.forEach(function (el) {
+var delay = el.getAttribute('data-reveal-delay');
+if (delay) el.style.setProperty('--reveal-delay', delay + 'ms');
+observer.observe(el);
+});
+}
+function initCounters(root) {
+var scope = root || document;
+var nodes = scope.querySelectorAll('[data-count]');
+if (!nodes.length) return;
+function render(el, value) {
+var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+el.textContent =
+(el.getAttribute('data-prefix') || '') +
+value.toFixed(decimals) +
+(el.getAttribute('data-suffix') || '');
+}
+function run(el) {
+var target = parseFloat(el.getAttribute('data-count'));
+if (isNaN(target)) return;
+if (reduceMotion) { render(el, target); return; }
+var duration = parseInt(el.getAttribute('data-duration') || '1600', 10);
+var start = null;
+function frame(now) {
+if (start === null) start = now;
+var p = Math.min((now - start) / duration, 1);
+var eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+render(el, target * eased);
+if (p < 1) requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+}
+if (!('IntersectionObserver' in window)) {
+nodes.forEach(run);
+return;
+}
+var observer = new IntersectionObserver(function (entries) {
+entries.forEach(function (entry) {
+if (!entry.isIntersecting) return;
+run(entry.target);
+observer.unobserve(entry.target);
+});
+}, { threshold: 0.5 });
+nodes.forEach(function (el) {
+render(el, 0);
+observer.observe(el);
+});
+}
+function initAccordion(root) {
+var scope = root || document;
+scope.querySelectorAll('[data-faq]').forEach(function (list) {
+var single = list.getAttribute('data-faq-single') !== 'false';
+list.querySelectorAll('.faq__q').forEach(function (btn) {
+btn.addEventListener('click', function () {
+var item = btn.closest('.faq__item');
+var isOpen = item.getAttribute('data-open') === 'true';
+if (single) {
+list.querySelectorAll('.faq__item').forEach(function (other) {
+other.setAttribute('data-open', 'false');
+var q = other.querySelector('.faq__q');
+if (q) q.setAttribute('aria-expanded', 'false');
+});
+}
+item.setAttribute('data-open', isOpen ? 'false' : 'true');
+btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+});
+});
+});
+}
+function boot(root) {
+initReveal(root);
+initCounters(root);
+initAccordion(root);
+}
+ready(function () { boot(document); });
+document.addEventListener('shopify:section:load', function (e) { boot(e.target); });
+})();
+{% endraw %}</script>
+
+<div class="nurva">
+  <section class="section section--tight">
+    <div class="wrap wrap--wide">
+      <div class="sec-head sec-head--center stack" data-reveal>
+        <span class="eyebrow">Shop</span>
+        <h1 class="h1">{{ collection.title | default: 'All Products' }}</h1>
+        {%- if collection.description != blank -%}
+          <div class="lede rte" style="margin-inline:auto">{{ collection.description }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" style="--marquee-speed:30s">
+    <div class="marquee__track" data-marquee>
+      <div class="marquee__group">
+        <span class="marquee__item">BUY 1 GET 1 FREE<span class="marquee__dot"></span></span>
+        <span class="marquee__item">SHIPS VIA AN POST<span class="marquee__dot"></span></span>
+        <span class="marquee__item">30-NIGHT GUARANTEE<span class="marquee__dot"></span></span>
+        <span class="marquee__item">DRUG FREE<span class="marquee__dot"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="wrap wrap--wide">
+      {%- paginate collection.products by 24 -%}
+        {%- if collection.products.size > 0 -%}
+          <div class="grid grid--4 reveal-stagger">
+            {%- for product in collection.products -%}
+              {%- assign p_on_sale = false -%}
+              {%- if product.compare_at_price > product.price -%}
+                {%- assign p_on_sale = true -%}
+              {%- endif -%}
+              {%- assign p_has_alt_media = false -%}
+              {%- if product.media.size > 1 -%}
+                {%- assign p_has_alt_media = true -%}
+              {%- endif -%}
+              <a class="card" href="{{ product.url }}">
+                <div class="card__media {% if p_has_alt_media %}card__media--alt{% endif %}">
+                  {%- if product.featured_media -%}
+                    {{ product.featured_media | image_url: width: 900 | image_tag:
+                        loading: 'lazy',
+                        sizes: '(min-width: 990px) 25vw, (min-width: 750px) 45vw, 90vw',
+                        widths: '300,450,600,900',
+                        alt: product.featured_media.alt | default: product.title }}
+                    {%- if product.media[1] -%}
+                      {{ product.media[1] | image_url: width: 900 | image_tag:
+                          loading: 'lazy',
+                          class: 'card__img-2',
+                          sizes: '(min-width: 990px) 25vw, (min-width: 750px) 45vw, 90vw',
+                          widths: '300,450,600,900',
+                          alt: '' }}
+                    {%- endif -%}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- endif -%}
+                  {%- if p_on_sale -%}
+                    <span class="card__tag">Buy 1 Get 1 Free</span>
+                  {%- endif -%}
+                </div>
+                <div>
+                  <div class="card__title">{{ product.title }}</div>
+                </div>
+                <div class="card__price">
+                  <span>{{ product.price | money }}</span>
+                  {%- if p_on_sale -%}
+                    <s>{{ product.compare_at_price | money }}</s>
+                  {%- endif -%}
+                </div>
+              </a>
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="pagination" aria-label="Pagination">
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}">{{ part.title }}</a>
+                {%- else -%}
+                  <span {% if part.title == paginate.current_page %}aria-current="page"{% endif %}>{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </nav>
+          {%- endif -%}
+        {%- else -%}
+          <div class="empty-state stack">
+            <h2 class="h3">Nothing here yet</h2>
+            <p class="muted">This collection is empty. Check back soon.</p>
+            <a class="btn" href="{{ routes.all_products_collection_url }}">Browse everything</a>
+          </div>
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  </section>
+
+  <section class="section section--raised section--tight">
+    <div class="wrap">
+      <div class="trust-row" style="border-top:0;padding-top:0" data-reveal>
+        <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l3 3v3h-7"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span>Delivered via An Post, 5&ndash;7 business days</span></div>
+        <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.3-2.9 8-7 9.5-4.1-1.5-7-5.2-7-9.5V6z"/><polyline points="9.2 12 11.4 14.1 15 10.4"/></svg><span>30-night guarantee</span></div>
+        <div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4"/><path d="M20 4c0 9-5 13-11 13-1.6 0-3-.4-4-1"/></svg><span>Drug free</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Nurva collection",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
