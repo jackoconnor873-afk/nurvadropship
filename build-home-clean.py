@@ -377,7 +377,53 @@ REVIEWS_AND_FAQ = r'''<div class="nurva">
   </section>
 </div>'''
 
-ALL_MARKUP = HERO_AND_MARQUEE + STATS + SHOP_NOW + REVIEWS_AND_FAQ
+FOOTER = r'''<div class="nurva">
+  <footer class="footer">
+    <div class="wrap wrap--wide">
+      <div class="footer__grid">
+        <div class="footer__brand stack" data-reveal>
+          <span class="eyebrow" style="color:var(--text)">NURVA</span>
+          <p class="muted" style="font-size:.92rem">Premium performance nasal strips engineered for training, recovery and deeper sleep. Open your airway, unlock your output.</p>
+          <p class="eyebrow">Breathe Pure | Live Pure</p>
+        </div>
+
+        <div data-reveal>
+          <p class="footer__col-title">Shop</p>
+          <ul class="footer__links stack">
+            <li><a href="{{ routes.root_url }}">Home</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">All products</a></li>
+          </ul>
+        </div>
+
+        <div data-reveal>
+          <p class="footer__col-title">Support</p>
+          <ul class="footer__links stack">
+            <li><a href="mailto:hello@nurva.com">hello@nurva.com</a></li>
+            <li><a href="{{ routes.account_url }}">My account</a></li>
+          </ul>
+        </div>
+
+        <div data-reveal>
+          <p class="footer__col-title">Shipping</p>
+          <ul class="footer__links stack">
+            <li>Delivered via An Post</li>
+            <li>5&ndash;7 business days</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__wordmark" aria-hidden="true">NURVA</div>
+
+      <div class="footer__bottom">
+        <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
+      </div>
+
+      <p class="disclaimer">Nurva nasal strips are a drug-free external nasal dilator intended to temporarily relieve nasal congestion and reduce or eliminate snoring caused by nasal congestion. These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure or prevent any disease. Consult a physician if symptoms persist.</p>
+    </div>
+  </footer>
+</div>'''
+
+ALL_MARKUP = HERO_AND_MARQUEE + STATS + SHOP_NOW + REVIEWS_AND_FAQ + FOOTER
 
 # ---------------------------------------------------------------- CSS pruning
 
